@@ -1,40 +1,51 @@
-name: Node.js CI
+name: BankingApp-UI CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main", "feature/*" ]
-    paths: [ "bankingapp-ui" ]
+    paths: [ "./bankingapp-ui/*" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "bankingapp-ui" ]
+    paths: [ "./bankingapp-ui/*" ]
 
+  
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./bankingapp-ui
+    
     strategy:
       matrix:
         node-version: [18.x]
         
     steps:
     - name: Check Out Repository
-    - uses: actions/checkout@v3
-    
+      uses: actions/checkout@v3
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+
     - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: ./bankingapp-ui/package-lock.json
 
     - name: Install Dependencies
-    - run: npm ci
+      run: npm ci
 
     - name: Run tests
-    - run: npm test --code-coverage
+      run: ng test --code-coverage --watch=false
 
     - name: Run Cypress Tests
       run: |
+        ng serve
         until $(curl --output /dev/null --silent --head --fail http://localhost:4200); do
           echo "Starting Angular application"
           sleep 5
