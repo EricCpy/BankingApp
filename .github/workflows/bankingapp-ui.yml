@@ -11,19 +11,15 @@ on:
     paths:
       - "bankingapp-ui/**"
 
-  
-jobs:
-  build_test:
 
-    runs-on: ubuntu-latest
+jobs:
+  build:
 
     defaults:
       run:
         working-directory: ./bankingapp-ui
-    
-    strategy:
-      matrix:
-        node-version: [18.x]
+
+    runs-on: ubuntu-latest
         
     steps:
     - name: Check Out Repository
@@ -32,19 +28,19 @@ jobs:
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@v1
 
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 18
         cache: 'npm'
         cache-dependency-path: ./bankingapp-ui/package-lock.json
+        registry-url: https://npm.pkg.github.com/
 
     - name: Install Dependencies
       run: |
         npm install -g @angular/cli 
         npm ci
         
-
     - name: Run tests
       run: ng test --code-coverage --watch=false
 
@@ -56,3 +52,8 @@ jobs:
           sleep 5
         done
         npm run cypress:run
+
+    - name: Grype security check
+      run: |
+        curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+        grype dir:./node_modules --config ../.grype.yml
