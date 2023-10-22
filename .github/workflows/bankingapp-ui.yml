@@ -1,6 +1,7 @@
 name: BankingApp-UI CI
 
 on:
+  workflow_dispatch: 
   push:
     branches: [ "main", "feature/*" ]
     paths: 
@@ -12,7 +13,7 @@ on:
 
   
 jobs:
-  test:
+  build_test:
 
     runs-on: ubuntu-latest
 
