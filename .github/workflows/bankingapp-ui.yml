@@ -1,17 +1,18 @@
 name: BankingApp-UI CI
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main", "feature/*" ]
-    paths: [ "./bankingapp-ui/*" ]
+    paths: 
+      - "bankingapp-ui/**"
   pull_request:
     branches: [ "main" ]
-    paths: [ "./bankingapp-ui/*" ]
+    paths:
+      - "bankingapp-ui/**"
 
   
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -38,14 +39,17 @@ jobs:
         cache-dependency-path: ./bankingapp-ui/package-lock.json
 
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        npm install -g @angular/cli 
+        npm ci
+        
 
     - name: Run tests
       run: ng test --code-coverage --watch=false
 
     - name: Run Cypress Tests
       run: |
-        ng serve
+        ng serve &
         until $(curl --output /dev/null --silent --head --fail http://localhost:4200); do
           echo "Starting Angular application"
           sleep 5
