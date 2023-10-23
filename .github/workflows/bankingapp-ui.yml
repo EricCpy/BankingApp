@@ -44,6 +44,14 @@ jobs:
     - name: Run tests
       run: ng test --code-coverage --watch=false
 
+    - name: Linting Errors
+      run: |
+        npm run lint
+        echo "# Test Coverage" >> $GITHUB_STEP_SUMMARY
+        echo " \`\`\` " >> $GITHUB_STEP_SUMMARY
+        cat "./coverage/bankingapp-ui/coverage.txt" >> $GITHUB_STEP_SUMMARY
+        echo " \`\`\` " >> $GITHUB_STEP_SUMMARY
+
     - name: Run Cypress Tests
       run: |
         ng serve &
@@ -52,7 +60,7 @@ jobs:
           sleep 5
         done
         npm run cypress:run
-
+    
     - name: Grype security check
       run: |
         curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin

@@ -38,6 +38,19 @@ jobs:
       with:
         directory: ./bankingapp
         ignore-maven-wrapper: true
+    
+    - name: JaCoCo Code Coverage Report
+      id: jacoco_reporter
+      uses: PavanMudigonda/jacoco-reporter@v4.8
+      with:
+        coverage_results_path: './bankingapp/target/site/jacoco/jacoco.xml'
+        coverage_report_title: 'Test coverage results'
+        coverage_report_name: 'Test coverage results'
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        minimum_coverage: 80
+      
+    - name: Add Coverage Job Summary
+      run: echo "${{ steps.jacoco_reporter.outputs.coverageSummary }}" >> $GITHUB_STEP_SUMMARY
 
     - name: Grype security check
       run: |

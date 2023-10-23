@@ -30,7 +30,8 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'text-summary' }
-      ]
+      ],
+      file : 'coverage.txt'
     },
     reporters: ['progress', 'kjhtml'],
     browsers: ['ChromeHeadless'],
