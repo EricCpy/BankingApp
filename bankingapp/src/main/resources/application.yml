@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://${DATASOURCE_SERVER};databaseName=${DATASOURCE_NAME}
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      schema: ${DATASOURCE_SCHEMA}
+  liquibase:
+    urL: jdbc:sqlserver://${DATASOURCE_SERVER};databaseName=${DATASOURCE_NAME}
+    user: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    enabled: true
+    change-log: migration.sql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USER}
+    password: ${MAIL_PASSWORD}
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      connectiontimeout: 5000
+      writetimeout: 5000
+      timeout: 3000
+cors:
+  allowed-origins:
+server:
+  error:
+    include-message: always
+
