@@ -1,0 +1,13 @@
+###
+POST http://localhost:8080/registration
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "firstName": "Stan",
+    "lastName": "Gislason",
+    "password": "password"
+}
+
+###
+GET http://localhost:8080/verify

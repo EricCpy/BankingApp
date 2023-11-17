@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:myDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MSSQLServer
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  liquibase:
+    user: sa
+    password: password
+    enabled: true
+    change-log: migration.sql
+    drop-first: true
+  mail:
+    host: smtp.ethereal.email
+    port: 587
+    username: stan.gislason@ethereal.email
+    password: rxyveyhy9xK6Wg2d5K
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      connectiontimeout: 5000
+      writetimeout: 5000
+      timeout: 3000
+logging:
+  level:
+    org:
+      springframework:
+        security: ERROR
+cors:
+  allowed-origins:
+server:
+  error:
+    include-message: always
