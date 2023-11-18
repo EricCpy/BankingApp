@@ -10,4 +10,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/verify
+POST http://localhost:8080/registration/sendVerificationMail
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email"
+}
+
+
+###
+GET http://localhost:8080/registration/verify?token=token

@@ -21,6 +21,11 @@ spring:
       connectiontimeout: 5000
       writetimeout: 5000
       timeout: 3000
+      starttls:
+        enable: true
+  security:
+    user:
+      password: password
 logging:
   level:
     org:
