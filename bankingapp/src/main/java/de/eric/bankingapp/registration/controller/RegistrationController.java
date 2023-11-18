@@ -1,9 +1,8 @@
 package de.eric.bankingapp.registration.controller;
 
+import de.eric.bankingapp.registration.model.EmailRequest;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
-import de.eric.bankingapp.registration.model.RegistrationToken;
 import de.eric.bankingapp.registration.service.RegistrationService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +13,21 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    boolean registerUser(@RequestBody RegistrationRequest registrationRequest) {
+    String registerUser(@RequestBody RegistrationRequest registrationRequest) {
         registrationService.registerUser(registrationRequest);
-        return true;
+        return "Account created, check your emails to verify your account!";
     }
+
+    @PostMapping("/sendVerificationMail")
+    String sendVerificationEmail(@RequestBody EmailRequest emailRequest) {
+        registrationService.sendVerificationMail(emailRequest);
+        return "Check your emails to verify your account!";
+    }
+
     @GetMapping("/verify")
-    boolean verifyEmail(@RequestParam("token") String token) {
-
-        return true;
-    }
-
-    private String getRequestUrl(HttpServletRequest request) {
-        return request.getRequestURL() + "/verify";
+    String verifyEmail(@RequestParam("token") String token) {
+        registrationService.verifyAccount(token);
+        return "This account has been verified, please, login.";
     }
 
 }
