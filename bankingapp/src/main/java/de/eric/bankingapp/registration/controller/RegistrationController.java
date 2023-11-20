@@ -4,6 +4,7 @@ import de.eric.bankingapp.registration.model.EmailRequest;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
 import de.eric.bankingapp.registration.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
     private final RegistrationService registrationService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     String registerUser(@RequestBody RegistrationRequest registrationRequest) {
         registrationService.registerUser(registrationRequest);

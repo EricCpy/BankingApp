@@ -28,4 +28,7 @@ cors:
 server:
   error:
     include-message: always
+jwt:
+  secret: ${JWT_SECRET}
+  expirationTime: 1800000
 
