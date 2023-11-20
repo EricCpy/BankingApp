@@ -1,24 +1,41 @@
 package de.eric.bankingapp.user.controller;
 
+import de.eric.bankingapp.user.model.LoginRequest;
+import de.eric.bankingapp.user.model.LoginResponse;
 import de.eric.bankingapp.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/register")
-    public String register() {
-        return "";
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return userService.login(loginRequest);
     }
 
-    @PostMapping("/login")
-    public String login() {
-        return "";
+    //TODO
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/create")
+    public String createUser() {
+        return "aa";
     }
+
+    //TODO
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/edit")
+    public String editUser(@RequestParam String email, @RequestBody String aa) {
+        return "aa";
+    }
+
+    //TODO
+    /*@ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/edit/self")
+    public String editOwnUser(@RequestBody String aa) {
+        return "aa";
+    }*/
 }

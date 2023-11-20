@@ -20,3 +20,25 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/registration/verify?token=token
+
+###
+# @name login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "password": "password"
+}
+
+@token = {{login.response.body.token}}
+
+###
+POST http://localhost:8080/user/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "password": "password"
+}
