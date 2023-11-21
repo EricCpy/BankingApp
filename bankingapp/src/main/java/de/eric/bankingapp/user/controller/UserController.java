@@ -19,23 +19,27 @@ public class UserController {
     }
 
     //TODO
+    @PostMapping("/renewSession")
+    public String renewSession(@RequestBody String aa) {
+        return "aa";
+    }
+
+    //TODO only admins can do this
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     public String createUser() {
         return "aa";
     }
 
-    //TODO
-    @ResponseStatus(HttpStatus.CREATED)
+    //TODO only admins can do this
     @PostMapping("/edit")
     public String editUser(@RequestParam String email, @RequestBody String aa) {
         return "aa";
     }
 
-    //TODO
-    /*@ResponseStatus(HttpStatus.CREATED)
+    //TODO only you can do this
     @PostMapping("/edit/self")
     public String editOwnUser(@RequestBody String aa) {
         return "aa";
-    }*/
+    }
 }
