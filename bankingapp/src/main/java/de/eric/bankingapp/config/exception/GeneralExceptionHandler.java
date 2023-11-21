@@ -1,4 +1,4 @@
-package de.eric.bankingapp.exception;
+package de.eric.bankingapp.config.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
