@@ -23,4 +23,5 @@ public class RegistrationToken {
         String token;
         @NaturalId
         String email;
+        Date expiration;
 }

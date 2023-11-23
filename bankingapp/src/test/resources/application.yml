@@ -23,9 +23,6 @@ spring:
       timeout: 3000
       starttls:
         enable: true
-  security:
-    user:
-      password: password
 logging:
   level:
     org:
@@ -36,6 +33,11 @@ cors:
 server:
   error:
     include-message: always
-jwt:
-  secret: 81bd441201cf8043cf8c53736f076d1adbb38e5cc0f30a74f1aaefafeb8361e9
-  expirationTime: 1800000
+bankingapp:
+  jwt:
+    secret: 81bd441201cf8043cf8c53736f076d1adbb38e5cc0f30a74f1aaefafeb8361e9
+    expirationTime: 1800000
+  email:
+    expirationTimeEmailMs: 2700000000
+  commandLineRunner:
+    enabled: true

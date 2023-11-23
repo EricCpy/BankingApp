@@ -13,5 +13,6 @@ CREATE TABLE ACCOUNT (
 CREATE TABLE REGISTRATION_TOKEN (
     ID                     BIGINT IDENTITY,
     TOKEN                  VARCHAR(255) NOT NULL,
-    EMAIL                  VARCHAR(255) NOT NULL
+    EMAIL                  VARCHAR(255) NOT NULL,
+    EXPIRATION             DATE NOT NULL
 );
