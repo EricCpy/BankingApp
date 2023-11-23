@@ -1,8 +1,6 @@
 package de.eric.bankingapp.user.model;
 
-import java.util.Date;
-
-public record LoginResponse(
+public record TokenResponse(
         String email,
         String token
 ) {
