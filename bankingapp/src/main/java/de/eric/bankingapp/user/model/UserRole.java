@@ -1,8 +1,8 @@
 package de.eric.bankingapp.user.model;
 
 public enum UserRole {
-    CUSTOMER,
-    SUPPORT,
-    EMPLOYEE,
-    ADMIN
+    ROLE_CUSTOMER,
+    ROLE_SUPPORT,
+    ROLE_EMPLOYEE,
+    ROLE_ADMIN
 }

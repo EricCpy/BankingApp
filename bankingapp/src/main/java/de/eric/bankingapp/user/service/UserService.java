@@ -3,10 +3,12 @@ package de.eric.bankingapp.user.service;
 import de.eric.bankingapp.config.auth.JwtUtils;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
 import de.eric.bankingapp.user.model.LoginRequest;
-import de.eric.bankingapp.user.model.LoginResponse;
+import de.eric.bankingapp.user.model.TokenResponse;
 import de.eric.bankingapp.user.model.User;
 import de.eric.bankingapp.user.model.UserRole;
 import de.eric.bankingapp.user.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,12 +16,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -44,7 +42,7 @@ public class UserService {
                 registrationRequest.firstName(),
                 registrationRequest.lastName(),
                 passwordEncoder.encode(registrationRequest.password()),
-                UserRole.CUSTOMER,
+                UserRole.ROLE_CUSTOMER,
                 false);
         return userRepository.save(newUser);
     }
@@ -68,7 +66,7 @@ public class UserService {
         userRepository.save(user.get());
     }
 
-    public LoginResponse login(LoginRequest loginRequest) {
+    public TokenResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -78,6 +76,24 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user account does not exist!");
         }
 
-        return new LoginResponse(loginRequest.email(), jwtUtils.createToken(user.get()));
+        if(!user.get().isEmailVerified()) {
+            log.info("Can not login, because account is not verified!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "This user account is not verified!");
+        }
+
+        return new TokenResponse(loginRequest.email(), jwtUtils.createToken(user.get()));
     }
+
+    public TokenResponse refreshSession(HttpServletRequest request) {
+        Claims claims = jwtUtils.resolveClaims(request);
+        String email = claims.getSubject();
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty()) {
+            log.info("Can not login, because account does not exist!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user account does not exist!");
+        }
+        return new TokenResponse(email, jwtUtils.createToken(user.get()));
+    }
+
+
 }
