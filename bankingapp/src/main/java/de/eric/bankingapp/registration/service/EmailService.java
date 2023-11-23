@@ -21,7 +21,7 @@ public class EmailService {
     public void sendVerificationMail(User user, String verificationUrl)  throws MessagingException, UnsupportedEncodingException {
         String subject = "Account Verification";
         String senderName = "Banking App";
-        String mailContent = "<p> Hello Mr. " + user.getLastName() + ", </p>"+
+        String mailContent = "<p> Hello Mr(s). " + user.getLastName() + ", </p>"+
                 "Please, click on the link below to complete your registration.</p>"+
                 "<a href=\"" +verificationUrl+ "\">Verify your email to activate your account</a>"+
                 "<p> Thank you <br> Banking App";

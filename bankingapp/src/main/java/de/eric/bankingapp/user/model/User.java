@@ -21,7 +21,7 @@ public class User {
         String firstName;
         String lastName;
         String password;
-        UserRole role = UserRole.ROLE_CUSTOMER;
+        UserRole role = UserRole.CUSTOMER;
         boolean emailVerified = false;
 }
 

@@ -2,10 +2,7 @@ package de.eric.bankingapp.user.service;
 
 import de.eric.bankingapp.config.auth.JwtUtils;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
-import de.eric.bankingapp.user.model.LoginRequest;
-import de.eric.bankingapp.user.model.TokenResponse;
-import de.eric.bankingapp.user.model.User;
-import de.eric.bankingapp.user.model.UserRole;
+import de.eric.bankingapp.user.model.*;
 import de.eric.bankingapp.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -30,7 +29,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
-    public User createUser(RegistrationRequest registrationRequest) {
+    public User registerUser(RegistrationRequest registrationRequest) {
         String email = registrationRequest.email();
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
@@ -42,9 +41,28 @@ public class UserService {
                 registrationRequest.firstName(),
                 registrationRequest.lastName(),
                 passwordEncoder.encode(registrationRequest.password()),
-                UserRole.ROLE_CUSTOMER,
+                UserRole.CUSTOMER,
                 false);
         return userRepository.save(newUser);
+    }
+
+    public void createUser(CreationRequest creationRequest, List<String> authorities) {
+        String email = creationRequest.email();
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            log.info("Email " + email + " already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email " + email + " already exists");
+        }
+
+        boolean isAdmin = authorities.stream().anyMatch(r -> r.equals("ADMIN"));
+        User newUser = new User(null,
+                email,
+                creationRequest.firstName(),
+                creationRequest.lastName(),
+                passwordEncoder.encode(creationRequest.password()),
+                isAdmin ? getRoleFromString(creationRequest.role()) : UserRole.CUSTOMER,
+                isAdmin && creationRequest.emailVerified());
+        userRepository.save(newUser);
     }
 
     public Optional<User> findUserByEmail(String email) {
@@ -95,5 +113,12 @@ public class UserService {
         return new TokenResponse(email, jwtUtils.createToken(user.get()));
     }
 
-
+    private UserRole getRoleFromString(String role) {
+        Map<String, UserRole> roles = Map.of("admin", UserRole.ADMIN,
+                                            "support", UserRole.SUPPORT,
+                                            "employee",UserRole.EMPLOYEE,
+                                            "customer", UserRole.CUSTOMER);
+        if(role == null) role = "";
+        return roles.getOrDefault(role.toLowerCase() ,UserRole.CUSTOMER);
+    }
 }

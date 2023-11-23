@@ -2,7 +2,10 @@ package de.eric.bankingapp.config.auth;
 
 
 import de.eric.bankingapp.user.model.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,20 +19,17 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class JwtUtils {
-    @Value("${jwt.secret}")
+    @Value("${bankingapp.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${jwt.expirationTime}")
+    @Value("${bankingapp.jwt.expirationTime}")
     private long jwtExpirationMs;
 
-    public void printKey() {
-        System.out.println(jwtSecret.toCharArray());
-    }
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().subject(user.getEmail())
-                .add("firstName",user.getFirstName())
-                .add("lastName",user.getLastName()).build();
+                .add("firstName", user.getFirstName())
+                .add("lastName", user.getLastName()).build();
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + jwtExpirationMs);
         var key = Keys.hmacShaKeyFor(jwtSecret.getBytes());

@@ -19,7 +19,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:8080/registration/verify?token=token
+GET http://localhost:8080/registration/verify?token=0e14e28f-c1df-4f88-a393-ee4ad4acbdc6
 
 ###
 # @name login
@@ -27,14 +27,15 @@ POST http://localhost:8080/user/login
 Content-Type: application/json
 
 {
-    "email": "stan.gislason@ethereal.email",
+    "email": "admin@admin.com",
     "password": "password"
 }
 
 @token = {{login.response.body.token}}
 
 ###
-GET http://localhost:8080/user/refreshSesssions
+GET http://localhost:8080/user/refreshSession
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ###
@@ -43,6 +44,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "email": "stan.gislason@ethereal.email",
+    "email": "stan.gislason2@ethereal.email",
+    "firstName": "Stan",
+    "lastName": "Gislason",
     "password": "password"
 }
