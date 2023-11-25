@@ -1,0 +1,116 @@
+###
+POST http://localhost:8080/registration
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "firstName": "Stan",
+    "lastName": "Gislason",
+    "password": "password"
+}
+
+###
+POST http://localhost:8080/registration/sendVerificationMail
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email"
+}
+
+
+###
+GET http://localhost:8080/registration/verify?token=302a6b77-bd34-434a-8c21-184f6c10b5f8
+
+###
+# @name login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "admin@admin.com",
+    "password": "password"
+}
+
+@token = {{login.response.body.token}}
+
+###
+GET http://localhost:8080/user/refreshSession
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+POST http://localhost:8080/user/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "stan.gislason2@ethereal.email",
+    "firstName": "Stan",
+    "lastName": "Gislason",
+    "password": "password"
+}
+
+###
+POST http://localhost:8080/user/block
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "stan.gislason2@ethereal.email",
+    "block": true
+}
+
+###
+GET http://localhost:8080/user?email=stan.gislason2@ethereal.email
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:8080/user/edit?email=stan.gislason2@ethereal.email
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "stan.gislason45@ethereal.email"
+}
+
+
+###
+GET http://localhost:8080/user/all
+Authorization: Bearer {{token}}
+
+###
+DELETE http://localhost:8080/user/delete?email=stan.gislason45@ethereal.email
+Authorization: Bearer {{token}}
+
+
+###
+# @name loginNonAdmin
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "password": "password"
+}
+
+@tokenNonAdmin = {{loginNonAdmin.response.body.token}}
+
+
+###
+POST http://localhost:8080/user/resetPassword
+Authorization: Bearer {{tokenNonAdmin}}
+Content-Type: application/json
+
+{
+    "oldPassword": "password",
+    "newPassword": "passwort"
+}
+
+###
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "stan.gislason@ethereal.email",
+    "password": "passwort"
+}

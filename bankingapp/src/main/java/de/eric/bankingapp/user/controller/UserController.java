@@ -1,8 +1,6 @@
 package de.eric.bankingapp.user.controller;
 
-import de.eric.bankingapp.user.model.CreationRequest;
-import de.eric.bankingapp.user.model.LoginRequest;
-import de.eric.bankingapp.user.model.TokenResponse;
+import de.eric.bankingapp.user.model.*;
 import de.eric.bankingapp.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,50 +20,65 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody LoginRequest loginRequest) {
+    TokenResponse login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
     }
 
     @GetMapping("/refreshSession")
-    public TokenResponse refreshSession(HttpServletRequest request) {
+    TokenResponse refreshSession(HttpServletRequest request) {
         return userService.refreshSession(request);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public String createUser(@RequestBody CreationRequest creationRequest) {
+    String createUser(@RequestBody CreationRequest creationRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         userService.createUser(creationRequest, authorities);
         return "Account created!";
     }
 
-    //TODO
-    @PostMapping("/resetPassword")
-    public String resetPassword(@RequestBody String aa) {
-        return "aa";
+    @GetMapping
+    @PreAuthorize("hasRole('ROLE_SUPPORT')")
+    UserResponse getUser(@RequestParam String email) {
+        return userService.getUser(email);
     }
 
-    //TODO
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_SUPPORT')")
+    List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @PostMapping("/resetPassword")
+    String resetPassword(@RequestBody ResetPasswordRequest passwordRequest, HttpServletRequest request) {
+        User user = userService.getUserFromRequest(request);
+        userService.resetUserPassword(passwordRequest, user);
+        return "Password reset!";
+    }
+
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String editUser(@RequestParam String email, @RequestBody String aa) {
-        return "aa";
+    String editUser(@RequestParam String email, @RequestBody EditRequest editRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        userService.editUser(email, editRequest, authorities);
+        return "Account edited!";
     }
 
-    //TODO
     @PostMapping("/block")
     @PreAuthorize("hasRole('ROLE_SUPPORT')")
-    public String blockUser(@RequestParam String email, @RequestBody CreationRequest creationRequest) {
-        return "Account created!";
+    String blockUser(@RequestBody BlockRequest blockRequest) {
+        userService.changeUserBlockStatus(blockRequest);
+        return blockRequest.block() ? "Account blocked!" : "Account unblocked!";
     }
 
-    //TODO
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String deleteUser(@RequestParam String email, @RequestBody CreationRequest creationRequest) {
-        return "Account created!";
+    String deleteUser(@RequestParam String email) {
+        userService.deleteUser(email);
+        return "Account deleted!";
     }
 
 }

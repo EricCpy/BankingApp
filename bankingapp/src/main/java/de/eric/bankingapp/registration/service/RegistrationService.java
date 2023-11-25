@@ -53,18 +53,16 @@ public class RegistrationService {
 
     @Transactional
     public void sendVerificationMail(EmailRequest emailRequest) {
-        Optional<User> user = userService.findUserByEmail(emailRequest.email());
-        if (user.isEmpty()) {
-            throw new RuntimeException("No user with email " + emailRequest.email());
-        }
-        if (user.get().isEmailVerified()) {
+        User user = userService.findUserByEmail(emailRequest.email());
+
+        if (user.isEmailVerified()) {
             log.info("Can not create new token, because account is already verified!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Your account is already verified!");
         }
-        registrationRepository.deleteByEmail(user.get().getEmail());
-        RegistrationToken token = createVerificationToken(user.get());
+        registrationRepository.deleteByEmail(user.getEmail());
+        RegistrationToken token = createVerificationToken(user);
         try {
-            emailService.sendVerificationMail(user.get(), buildVerificationRedirect(emailRequest.verificationRedirect(), token.getToken()));
+            emailService.sendVerificationMail(user, buildVerificationRedirect(emailRequest.verificationRedirect(), token.getToken()));
         } catch (Exception e) {
             log.info("Could not send verification token to email " + emailRequest.email(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not send verification token!");
@@ -72,7 +70,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void verifyAccount(String token) {
+    public void verifyUser(String token) {
         Optional<RegistrationToken> registrationToken = registrationRepository.findByToken(token);
         if (registrationToken.isEmpty()) {
             log.info("Can not verify account, because token does not exist!");
@@ -84,7 +82,7 @@ public class RegistrationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resend verification email, token is expired!");
         }
 
-        userService.verifyAccount(registrationToken.get().getEmail());
+        userService.verifyUser(registrationToken.get().getEmail());
     }
 
     private String buildVerificationRedirect(String redirect, String token) {
