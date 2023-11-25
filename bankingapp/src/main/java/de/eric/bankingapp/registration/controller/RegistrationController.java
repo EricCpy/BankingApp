@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @GetMapping("/verify")
     String verifyEmail(@RequestParam("token") String token) {
-        registrationService.verifyAccount(token);
+        registrationService.verifyUser(token);
         return "This account has been verified, please, login.";
     }
 

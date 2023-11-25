@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -20,12 +19,17 @@ import java.util.Optional;
 @Slf4j
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
-    private Collection<? extends GrantedAuthority> authorities;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty()) {
             log.info("User does not exist!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong!");
+        }
+
+        if(user.get().isBlocked() || !user.get().isEmailVerified()) {
+            log.info("User with blocked/unverified account tried to send request!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong!");
         }
 
