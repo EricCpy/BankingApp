@@ -3,6 +3,9 @@ package de.eric.bankingapp.user.service;
 import de.eric.bankingapp.config.auth.JwtUtils;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
 import de.eric.bankingapp.user.model.*;
+import de.eric.bankingapp.user.model.request.*;
+import de.eric.bankingapp.user.model.response.TokenResponse;
+import de.eric.bankingapp.user.model.response.UserResponse;
 import de.eric.bankingapp.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +49,8 @@ public class UserService {
                 passwordEncoder.encode(registrationRequest.password()),
                 UserRole.CUSTOMER,
                 false,
-                false);
+                false,
+                new ArrayList<>());
         return userRepository.save(newUser);
     }
 
@@ -65,7 +70,8 @@ public class UserService {
                 passwordEncoder.encode(creationRequest.password()),
                 isAdmin ? getRoleFromString(creationRequest.role()) : UserRole.CUSTOMER,
                 false,
-                isAdmin && creationRequest.emailVerified());
+                isAdmin && creationRequest.emailVerified(),
+                new ArrayList<>());
         userRepository.save(newUser);
     }
 

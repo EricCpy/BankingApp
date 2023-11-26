@@ -1,13 +1,11 @@
-package de.eric.bankingapp.user.model;
+package de.eric.bankingapp.user.model.request;
 
-import lombok.Builder;
+import lombok.NonNull;
 
-@Builder
-public record CreationRequest(
+public record EditRequest(
         String email,
         String firstName,
         String lastName,
-        String password,
         String role,
         boolean emailVerified) {
 }
