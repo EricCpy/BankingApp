@@ -1,7 +1,7 @@
 package de.eric.bankingapp.user.repository;
 
 import de.eric.bankingapp.user.model.User;
-import de.eric.bankingapp.user.model.UserResponse;
+import de.eric.bankingapp.user.model.response.UserResponse;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

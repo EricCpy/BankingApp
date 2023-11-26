@@ -1,4 +1,7 @@
-package de.eric.bankingapp.user.model;
+package de.eric.bankingapp.user.model.response;
+
+import de.eric.bankingapp.user.model.User;
+import de.eric.bankingapp.user.model.UserRole;
 
 public record UserResponse (
         String email,

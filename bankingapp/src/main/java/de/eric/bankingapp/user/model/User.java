@@ -1,12 +1,15 @@
 package de.eric.bankingapp.user.model;
 
+import de.eric.bankingapp.banking.model.BankingAccount;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.List;
+
 
 @Entity
-@Table(name="Account")
+@Table(name="USER_ACCOUNT")
 @With
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +27,9 @@ public class User {
         UserRole role = UserRole.CUSTOMER;
         boolean blocked = false;
         boolean emailVerified = false;
+
+        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+        private List<BankingAccount> bankingAccounts;
+
 }
 

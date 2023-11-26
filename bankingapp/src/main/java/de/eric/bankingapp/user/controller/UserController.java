@@ -1,6 +1,9 @@
 package de.eric.bankingapp.user.controller;
 
 import de.eric.bankingapp.user.model.*;
+import de.eric.bankingapp.user.model.request.*;
+import de.eric.bankingapp.user.model.response.TokenResponse;
+import de.eric.bankingapp.user.model.response.UserResponse;
 import de.eric.bankingapp.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
