@@ -10,7 +10,7 @@ This chapter answers and describes the Task B subtasks.
 - [x] setup for java and angular
 - [x] testing setup
 ### Documentation (Task B)
-- [ ] DSL Create a small DSL Demo example snippet in your code even if it does not contribute to your project (hence it can also be in another language).
+- [x] DSL Create a small DSL Demo example snippet in your code even if it does not contribute to your project (hence it can also be in another language).
 - [ ] Integrate some nice unit tests in your Code to be integrated into the Build
 - [ ] Clean Code Development: A) At least 5 points you can show me with an explanation of why this is clean code in your code and/or what has improved & B) >>10 points on your personal CCD cheat sheet. E.g. a PDF.
 - [x] Functional Programming: prove that you have covered all functional aspects in your code as:
