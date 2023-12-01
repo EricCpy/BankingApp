@@ -30,4 +30,5 @@ public class BankingAccount {
     @OneToMany(mappedBy = "bankingAccount", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Transaction> transactions = new ArrayList<>();
+
 }
