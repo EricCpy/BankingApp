@@ -58,7 +58,7 @@ TODO add Frontend pictures
 ## Documentation - Task B)
 
 ### 1. Git
-In this project, I used various Git features. I choose to use a monorepository for both applications. The project has a production branch (main) and feature branches, which can only be merged into the main branch through a pull request with atleast one review. Therefore, it is not possible to push directly into the main branch (branch protection).
+In this project, I used various Git features. I choose to use a monorepository for both applications. The project has a production branch ([main](https://github.com/EricCpy/BankingApp/blob/main)) and feature branches ([example](https://github.com/EricCpy/BankingApp/tree/feature/exampleForDocs)), which can only be merged into the main branch through a pull request with atleast one review. Therefore, it is not possible to push directly into the main branch (branch protection).
 
 <div style="text-align:center">
   <img src="docs/pictures/branch-protection.png" alt="Main protection">
@@ -67,10 +67,27 @@ In this project, I used various Git features. I choose to use a monorepository f
 I utilized different (uncommon) git features such as squashing commits, particularly when testing pipeline features with multiple small test commits. Additionally, I rebased most branches after changes on the main branch instead of merging to get a cleaner commit history.
 
 ### 2. UML
-TODO
-Für die UMLs habe ich das Tool StarUML verwendet und mich kurz an PlantUML probiert, aber bei PlantUML habe ich nicht so einfach die Anordnung der Komponenten und sonstiges erreicht wie bei StarUML.
+I used StarUML to make UML diagrams and experimented with PlantUML. However, arranging graphical components in my desired order was a bit tricky with PlantUML, which is why I stuck to StarUML. Overall, I created diagrams for deployment, components, use cases, and activities.
 
+First, I made a use case diagram showing what functions the system should have and which actors can use them.
 
+![Use Case Diagram](docs/UseCaseDiagram.PNG)<br>
+*Use Case Diagram*
+
+The deployment diagram shows different hardware components, like clients connecting to the banking servers. It also has distributed database parts to prevent losing data. Besides the main server, there are components in each bank branch, like ATMs communicating to the main systems.
+
+![Deployment Diagram](docs/DeploymentDiagram.PNG<br>
+*Deployment Diagram*
+
+The component diagram illustrates the main components needed for the system and their relationships.
+
+![Component Diagram](docs/ComponentDiagram.PNG)<br>
+*Component Diagram*
+
+The activity diagram explains how a customer registers with the banking app, including extra steps for user identification like POSTIDENT.
+
+![Activity Diagram](docs/ActivityDiagram.PNG)<br>
+*Activity Diagram*
 
 
 ### 3. DDD
