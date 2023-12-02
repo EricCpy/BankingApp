@@ -18,7 +18,7 @@
     - [7. CI/CD](#7-cicd)
     - [8. Unit Tests](#8-unit-tests)
     - [9. IDE](#9-ide)
-    - [10. DSL](#10-dsl)
+    - [10. DSLs](#10-dsls)
     - [11. Functional Programming](#11-functional-programming)
   - [Task Completion](#task-completion)
 
@@ -61,30 +61,35 @@ TODO add Frontend pictures
 In this project, I used various Git features. I choose to use a monorepository for both applications. The project has a production branch (main) and feature branches, which can only be merged into the main branch through a pull request with atleast one review. Therefore, it is not possible to push directly into the main branch (branch protection).
 
 <div style="text-align:center">
-  <img src="docs\pictures\branch-protection.png" alt="Main protection">
+  <img src="docs/pictures/branch-protection.png" alt="Main protection">
 </div>
 
-I utilized different (uncommon) git features, such as squashing commits, particularly when testing pipeline features with multiple small test commits. Additionally, I rebased most branches after changes on the main branch instead of merging to get a cleaner commit history.
+I utilized different (uncommon) git features such as squashing commits, particularly when testing pipeline features with multiple small test commits. Additionally, I rebased most branches after changes on the main branch instead of merging to get a cleaner commit history.
 
 ### 2. UML
+TODO
+Für die UMLs habe ich das Tool StarUML verwendet und mich kurz an PlantUML probiert, aber bei PlantUML habe ich nicht so einfach die Anordnung der Komponenten und sonstiges erreicht wie bei StarUML.
+
+
+
 
 ### 3. DDD
 I used Miro for event storming. At first, I brainstormed domain events and potential conflicts that could arise in the app.
 
 <div style="text-align:center">
-  <img src="docs\EventStormingStep1.PNG" alt="DDD Step1">
+  <img src="docs/EventStormingStep1.PNG" alt="DDD Step1">
 </div>
 
 Then, I categorized these terms into different processes and further grouped them within the processes into smaller subsets.
 
 <div style="text-align:center">
-  <img src="docs\EventStormingStep2.PNG" alt="DDD Step1">
+  <img src="docs/EventStormingStep2.PNG" alt="DDD Step1">
 </div>
 
 I assigned individual names to these groups and organized them in a Core Domain Chart. As shown in the image, my core domains primarily revolve around financial aspects such as trading and transferring money. These are intended to be supported by analysis sub-domains, which enhance the customer experience but are not essential. Tasks like withdrawing money from ATMs can be outsourced to third parties (generic domain).
 
 <div style="text-align:center">
-  <img src="docs\Core_Domain_Chart.PNG" alt="DDD Step1">
+  <img src="docs/Core_Domain_Chart.PNG" alt="DDD Step1">
 </div>
 
 Im finalen Schritt habe ich Beziehungen hinzugefügt. Die Analyse Domainen sind meistens Downstream von der richtigen Domain, welche Informationen für diese bereit stellt, dies kann man beispielsweise beim trading sehen. der geld transfer und die financial services teilen sich einen gemeinsamen kern, da diese auf geld transfer daten zugreifen und analyse daten zugreifen müssen um richtig zu funktionieren. so kann man kunden ermöglichen, dass ihre transfers durch bestehende transfertools analysiert werden können. der kunde könnte beispielsweise so empfehlungen für ein optimiertes konsum verhalten erhalten. 
@@ -96,26 +101,88 @@ In the final step, I added relationships. The analysis domains are downstream of
 </div>
 
 ### 4. Metrics
+The images shown here are from an early development stage of the backend. For the metrics, I used Sonarqube, which I set up using Docker. However, I chose not to put it into my pipelines because running an additional Sonarqube server for each pull request seemed impractical for this simple project.
 
-### 5. Clean Code Development
+To gather metrics, I used Sonarqube, which I set up using Docker. Nevertheless, I decided against integrating it into my pipelines because running an extra Sonarqube server for each pull request appeared impractical for this project.
+
+Simple Docker Sonarqube setup, which i used:
+
+```
+docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+```
+Login: admin
+<br>
+Password: admin
+
+![Sonarqube](docs/pictures/sonarqube.png)<br>
+*Sonarqube*
+
+I used JaCoCo to generate Java test coverage and integrated it into [my CI/CD pipeline](https://github.com/EricCpy/BankingApp/blob/main/.github/workflows/bankingapp.yml#L42).
+
+![JaCoCo Coverage report](docs/pictures/jacococoverage.png)<br>
+*JaCoCo coverage report*
+
+For frontend test coverage, I used Karma with Jasmine.
+
+![Karma & Jasmine coverage report](docs/pictures/jasmine_karma_coverage.png)<br>
+*Karma & Jasmine Coverage report*
+
+In [my Frontend pipeline](https://github.com/EricCpy/BankingApp/blob/main/.github/workflows/bankingapp-ui.yml#L49) I also run a linter over my code to ensure stylistic correctness.
+
+![Linter](docs/pictures/linting.png)<br>
+*Linter*
+
+Furthermore, I integrated Grype security checks into both pipelines. Grype can scan dependency files such as pom.xml and packages from various tools and programming languages for vulnerabilities.
+
+![Grype Check](docs/pictures/grypecheck.png) <br>
+*Grype Check*
+
+### 5. Clean Code Development 
+TODO
 
 ### 6. Build Management
+TODO
+generate Swagger docs
+more text backend -> maven frontend -> npm with angular cli
+all tools used in pipelines
 
 ### 7. CI/CD
+In this step, it became noticeable that I am using a monorepo instead of individual repositories. This has made it more complicated to execute different (Github)actions for the frontend and the backend because many actions are performed on the root directory. This results in problems such as a missing pom.xml in the action. However, I have found some workarounds for this (pom.xml example: directory parameter). For future projects, I would definitely use separate repositories, as most (Github)actions are not designed for monorepos.
+Both pipelines can be triggered either manually in GitHub (using workflow_dispatch) or automatically when there are changes in the respective directory.
+
+[Backend pipeline](.github/workflows/bankingapp.yml) actions:
+  - Set up Java 21
+  - Build JAR package and run tests (maven package)
+  - Update dependency graph in Github (displaying all project dependencies)
+  - Create a [test coverage report](https://github.com/EricCpy/BankingApp/runs/19237311367) using JaCoCo and write the test coverage report in the job summary
+  - Perform a Grype security check on dependencies, examining all used dependencies for vulnerabilities
+
+![JaCoCo Report](docs/pictures/jacocoreport.png)<br>
+*JaCoCo Report* 
+
+[Frontend pipeline](.github/workflows/bankingapp-ui.yml) actions:
+  - Download Chrome driver to execute Angular Jasmine/Karma tests
+  - Set up Node.js environment
+  - Install dependencies
+  - Run Karma/Jasmine tests with a code coverage report
+  - Perform code linting and write code coverage from Karma/Jasmine and linting report in the [job summary](https://github.com/EricCpy/BankingApp/actions/runs/7066074767)
+  - Run Cypress e2e tests
+  - Perform a Grype security check on dependencies, although I have not set it to fail on vulnerabilities. This is because in JavaScript/TypeScript, seemingly everything has a vulnerability.
+
+![Cypress Report](docs/pictures/cypressreport.png)<br>
+*Cypress Report*
 
 ### 8. Unit Tests
+TODO
 
 ### 9. IDE
-I used IntelliJ and VsCode. Ich habe IntelliJ für die Java Applikation verwendet, da IntelliJ ein sehr hübsches UI hat um verschiedene Maven commands auszuführen und einiges auch automatisch für einen erledigt.
-VsCode habe ich auch teilweise benutzt, um die REST requests zu testen, da es eine VsCode Extension dafür gibt und diese in IntelliJ Geld kosten würde oder ich sonst eine andere Software wie Postman benutzen müsste. Zudem habe ich VsCode für das Angular Frontend verwendet. 
-
-I used IntelliJ and VsCode. I used IntelliJ for the Java application because IntelliJ has a very nice UI to execute various Maven and Java commands and automatically handles some tasks. I also used VsCode for the Angular frontend and to test the HTTP requests because there is a VsCode extension for it and using such an extension in IntelliJ requires premium :( (without this extension I would need Postman).
+I used IntelliJ and Vscode. I used IntelliJ for the Java application because IntelliJ has a very nice UI to execute various Maven and Java commands and automatically handles some tasks. I also used Vscode for the Angular frontend and to test the HTTP requests because there is a [Vscode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) for it and using such an extension in IntelliJ requires premium :( (without this extension I would need Postman).
 
 **Favorite Shortcuts Overall**:
 - Ctrl + Shift + F, to search for something in all project files
 
-**VsCode**:
-- Ctrl + Shift + P, to execute VsCode actions (for example to reload VsCode)
+**Vscode**:
+- Ctrl + Shift + P, to execute Vscode actions (for example to reload Vscode)
 - Ctrl + ., for autocomplete and code action
 - Ctrl + Shift + Ö, to open the terminal
 - Shift + Alt + F, autoformat
@@ -128,16 +195,19 @@ I used IntelliJ and VsCode. I used IntelliJ for the Java application because Int
 
 I use these shortcuts the most while working. However, there are also other useful shortcuts that I sometimes use, but not nearly as often as these.
 
-### 10. DSL
+### 10. DSLs
+I implemented the DSLs example for [transactions in the banking app](bankingapp/src/main/java/de/eric/bankingapp/banking/model/Transaction.java), where I used a builder pattern and a fluent interface, which allows method chaining.
+
+I wrote this boilerplate code specifically for the example. Typically, for such scenarios, one would use libraries like Lombok, which provide a *@Builder* annotation to automatically generate a builder pattern ([Lombok example](bankingapp/src/main/java/de/eric/bankingapp/banking/model/BankingAccount.java)). However, if you need special chaining logic or validations, it can still be useful to create your own pattern instead of using Lombok.
 
 ### 11. Functional Programming
-For this task, I programmed a [TicTacToe](functional-programming\tictactoe.clj) console game in Clojure.
+For this task, I programmed a [TicTacToe](functional-programming/tictactoe.clj) console game in Clojure.
 Aspects of functional programming:
 - only final data structures
-  - in clojure all data structures are immutable
+  - In clojure all data structures are immutable
 - (mostly) side-effect-free functions
-  - does not have side effects except print statements (if they count)
-  - an example for a side-effect-free function is the 'execute-move' function, it takes the board player and field and returns a new board with the new executed move
+  - Does not have side effects except print statements (if they count)
+  - An example for a side-effect-free function is the 'execute-move' function, it takes the board player and field and returns a new board with the new executed move
     ```clojure
     (defn execute-move [player curr-player board field]
       (let [row (quot field (count board)) col (mod field (count board))]
@@ -148,11 +218,11 @@ Aspects of functional programming:
     ```
 - the use of higher-order functions
   - I used higher order functions like [map](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L85) and [every?](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L81), these functions take other functions as parameters
-  - my [ask-for-field](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L52) also takes an function as parameters for the player input 
+  - My [ask-for-field](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L52) also takes an function as parameters for the player input 
 - functions as parameters and return values
-  - the [create-tic-tac-toe](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L105) returns a function with a user/programmer defined TicTacToe board size, which can be used to create multiple games of TicTacToe
+  - The [create-tic-tac-toe](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L105) returns a function with a user/programmer defined TicTacToe board size, which can be used to create multiple games of TicTacToe
 - use closures / anonymous functions
-  - the [create-tic-tac-toe](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L105) is also an example for a closure, the return function remembers the create-tic-tac-toe input parameter
+  - The [create-tic-tac-toe](https://github.com/EricCpy/BankingApp/blob/main/functional-programming/tictactoe.clj#L105) is also an example for a closure, the return function remembers the create-tic-tac-toe input parameter
   - I use anonymous functions in many higher-order functions, like every?. For example, in the game over function to check if every field has been used
   ```clojure
   (defn game-over? [board]
