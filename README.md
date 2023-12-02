@@ -76,7 +76,7 @@ First, I made a use case diagram showing what functions the system should have a
 
 The deployment diagram shows different hardware components, like clients connecting to the banking servers. It also has distributed database parts to prevent losing data. Besides the main server, there are components in each bank branch, like ATMs communicating to the main systems.
 
-![Deployment Diagram](docs/DeploymentDiagram.PNG<br>
+![Deployment Diagram](docs/DeploymentDiagram.PNG)<br>
 *Deployment Diagram*
 
 The component diagram illustrates the main components needed for the system and their relationships.
@@ -108,8 +108,6 @@ I assigned individual names to these groups and organized them in a Core Domain 
 <div style="text-align:center">
   <img src="docs/Core_Domain_Chart.PNG" alt="DDD Step1">
 </div>
-
-Im finalen Schritt habe ich Beziehungen hinzugefügt. Die Analyse Domainen sind meistens Downstream von der richtigen Domain, welche Informationen für diese bereit stellt, dies kann man beispielsweise beim trading sehen. der geld transfer und die financial services teilen sich einen gemeinsamen kern, da diese auf geld transfer daten zugreifen und analyse daten zugreifen müssen um richtig zu funktionieren. so kann man kunden ermöglichen, dass ihre transfers durch bestehende transfertools analysiert werden können. der kunde könnte beispielsweise so empfehlungen für ein optimiertes konsum verhalten erhalten. 
 
 In the final step, I added relationships. The analysis domains are downstream of the core domains, which provides information for them, for example in trading. The money transfer and financial services have a shared core, they both require access to money transfer data and analytical data for proper functionality. This shared core enables both teams to easily communicate and access shared data. Example use case: Customers might receive recommendations for optimizing their spending behavior.
 
