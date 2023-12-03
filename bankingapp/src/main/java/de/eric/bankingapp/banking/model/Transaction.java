@@ -1,12 +1,15 @@
 package de.eric.bankingapp.banking.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.Date;
 
 
 @Entity
 @Table(name="BANKING_TRANSACTION")
+@Data
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

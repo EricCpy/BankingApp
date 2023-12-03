@@ -20,9 +20,8 @@ public class BankingAccount {
     Long accountId;
     @NaturalId
     String IBAN;
-    @NaturalId
-    String BIC;
-    double money;
+    @Builder.Default
+    double money = 0;
     double interestRatePA;
     @Builder.Default
     Date creationDate = new Date();
