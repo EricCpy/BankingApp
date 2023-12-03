@@ -20,6 +20,7 @@ public class RegistrationController {
         return "Account created, check your emails to verify your account!";
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/sendVerificationMail")
     String sendVerificationEmail(@RequestBody EmailRequest emailRequest) {
         registrationService.sendVerificationMail(emailRequest);

@@ -50,6 +50,7 @@ public class UserService {
                 UserRole.CUSTOMER,
                 false,
                 false,
+                new ArrayList<>(),
                 new ArrayList<>());
         return userRepository.save(newUser);
     }
@@ -71,6 +72,7 @@ public class UserService {
                 isAdmin ? getRoleFromString(creationRequest.role()) : UserRole.CUSTOMER,
                 false,
                 isAdmin && creationRequest.emailVerified(),
+                new ArrayList<>(),
                 new ArrayList<>());
         userRepository.save(newUser);
     }
