@@ -1,7 +1,6 @@
-package de.eric.bankingapp.banking.repository;
+package de.eric.bankingapp.savings.repository;
 
-import de.eric.bankingapp.banking.model.SavingsBond;
-import de.eric.bankingapp.user.model.User;
+import de.eric.bankingapp.savings.model.SavingsBond;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -12,9 +12,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long transactionId;
     Date creationTime;
-    long amount;
+    double amount;
     String description;
     boolean sending;
+    String receiver_IBAN;
+    String receiver_BIC;
     @ManyToOne
     @JoinColumn(name = "account_id")
     BankingAccount bankingAccount;

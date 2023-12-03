@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository extends CrudRepository<BankingAccount, Long> {
+public interface BankingAccountRepository extends CrudRepository<BankingAccount, Long> {
 
 }

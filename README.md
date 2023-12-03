@@ -42,13 +42,12 @@
 - **Checking/Savings Accounts**
   - CRUD operations
   - Transfers
-    - Scheduled transfers
-    - Recurring transfers
   - Annual interest calculation
   - List and filter account transactions
     - Export transactions of a specific period to PDF
 - **Saving Bonds**
-  - Create for specific period and delete after bond period 
+  - Create for specific period and delete after bond period
+  - Interest rate management
 
 This repository is a monorepository containing frontend and backend of the banking app. The [backend](bankingapp) is implemented with Spring Boot 3 and the [frontend](bankingapp-ui) with Angular 17.
 
@@ -71,7 +70,7 @@ I used StarUML to make UML diagrams and experimented with PlantUML. However, arr
 
 First, I made a use case diagram showing what functions the system should have and which actors can use them.
 
-![Use Case Diagram](docs/UseCaseDiagram.PNG)<br>
+<img src="docs/UseCaseDiagram.PNG" alt="Use Case Diagram" style="max-height: 700px;" /><br>
 *Use Case Diagram*
 
 The deployment diagram shows different hardware components, like clients connecting to the banking servers. It also has distributed database parts to prevent losing data. Besides the main server, there are components in each bank branch, like ATMs communicating to the main systems.
@@ -86,7 +85,7 @@ The component diagram illustrates the main components needed for the system and 
 
 The activity diagram explains how a customer registers with the banking app, including extra steps for user identification like POSTIDENT.
 
-![Activity Diagram](docs/ActivityDiagram.PNG)<br>
+<img src="docs/ActivityDiagram.PNG" alt="Activity Diagram" style="max-height: 700px;" /><br>
 *Activity Diagram*
 
 
@@ -100,20 +99,18 @@ I used Miro for event storming. At first, I brainstormed domain events and poten
 Then, I categorized these terms into different processes and further grouped them within the processes into smaller subsets.
 
 <div style="text-align:center">
-  <img src="docs/EventStormingStep2.PNG" alt="DDD Step1">
+  <img src="docs/EventStormingStep2.PNG" alt="DDD Step2">
 </div>
 
 I assigned individual names to these groups and organized them in a Core Domain Chart. As shown in the image, my core domains primarily revolve around financial aspects such as trading and transferring money. These are intended to be supported by analysis sub-domains, which enhance the customer experience but are not essential. Tasks like withdrawing money from ATMs can be outsourced to third parties (generic domain).
 
-<div style="text-align:center">
-  <img src="docs/Core_Domain_Chart.PNG" alt="DDD Step1">
-</div>
+<img src="docs/Core_Domain_Chart.PNG" alt="Core_Domain_Chart" style="max-height: 700px; width: 600px" /><br>
+*Core Domain Chart*
 
 In the final step, I added relationships. The analysis domains are downstream of the core domains, which provides information for them, for example in trading. The money transfer and financial services have a shared core, they both require access to money transfer data and analytical data for proper functionality. This shared core enables both teams to easily communicate and access shared data. Example use case: Customers might receive recommendations for optimizing their spending behavior.
 
-<div style="text-align:center">
-  <img src="docs\Core_Domain_Chart_Relations.PNG" alt="DDD Step1">
-</div>
+<img src="docs\Core_Domain_Chart_Relations.PNG" alt="Core_Domain_Chart_Relations" style="max-height: 700px; width: 600px" /><br>
+*Core Domain Chart with relations*
 
 ### 4. Metrics
 The images shown here are from an early development stage of the backend. For the metrics, I used Sonarqube, which I set up using Docker. However, I chose not to put it into my pipelines because running an additional Sonarqube server for each pull request seemed impractical for this simple project.
@@ -172,8 +169,8 @@ Both pipelines can be triggered either manually in GitHub (using workflow_dispat
   - Create a [test coverage report](https://github.com/EricCpy/BankingApp/runs/19237311367) using JaCoCo and write the test coverage report in the job summary
   - Perform a Grype security check on dependencies, examining all used dependencies for vulnerabilities
 
-![JaCoCo Report](docs/pictures/jacocoreport.png)<br>
-*JaCoCo Report* 
+<img src="docs/pictures/jacocoreport.png" alt="JaCoCo Report" style="max-height: 700px; width: 500px" /><br>
+*JaCoCo Report*
 
 [Frontend pipeline](.github/workflows/bankingapp-ui.yml) actions:
   - Download Chrome driver to execute Angular Jasmine/Karma tests
