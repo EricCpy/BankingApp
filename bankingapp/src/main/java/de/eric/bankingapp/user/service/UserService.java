@@ -137,7 +137,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void editUser(String email, EditRequest editRequest, List<String> authorities) {
+    public UserResponse editUser(String email, EditRequest editRequest, List<String> authorities) {
         User user = findUserByEmail(email);
         boolean isAdmin = authorities.stream().anyMatch(r -> r.equals("ADMIN"));
         user.setFirstName(editRequest.firstName() != null ? editRequest.firstName() : user.getFirstName());
@@ -145,7 +145,7 @@ public class UserService {
         user.setRole(isAdmin ? getRoleFromString(editRequest.role()) : user.getRole());
         user.setEmail(editRequest.email() != null ? editRequest.email() : user.getEmail());
         user.setEmailVerified(isAdmin && editRequest.emailVerified() || user.isEmailVerified());
-        userRepository.save(user);
+        return new UserResponse(userRepository.save(user));
     }
 
     public void resetUserPassword(ResetPasswordRequest resetPasswordRequest, User user) {

@@ -63,11 +63,10 @@ public class UserController {
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    String editUser(@RequestParam String email, @RequestBody EditRequest editRequest) {
+    UserResponse editUser(@RequestParam String email, @RequestBody EditRequest editRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        userService.editUser(email, editRequest, authorities);
-        return "Account edited!";
+        return userService.editUser(email, editRequest, authorities);
     }
 
     @PostMapping("/block")

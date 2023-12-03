@@ -43,10 +43,9 @@ public class BankingController {
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_SUPPORT')")
-    String editBankingAccount(@RequestParam String iban,
+    BankingAccountResponse editBankingAccount(@RequestParam String iban,
                               @RequestBody BankingAccountEditRequest bankingAccountEditRequest) {
-        bankingService.editBankingAccount(iban, bankingAccountEditRequest);
-        return "Edited banking account!";
+        return bankingService.editBankingAccount(iban, bankingAccountEditRequest);
     }
 
     @PostMapping("/deactivate")
