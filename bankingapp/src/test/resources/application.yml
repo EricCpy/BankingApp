@@ -41,3 +41,4 @@ bankingapp:
     expirationTimeEmailMs: 2700000000
   commandLineRunner:
     enabled: true
+  bic: "ericsbank"

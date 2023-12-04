@@ -43,11 +43,10 @@
   - CRUD operations
   - Transfers
   - Annual interest calculation
+  - Interest rate management
   - List and filter account transactions
     - Export transactions of a specific period to PDF
-- **Saving Bonds**
-  - Create for specific period and delete after bond period
-  - Interest rate management
+  
 
 This repository is a monorepository containing frontend and backend of the banking app. The [backend](bankingapp) is implemented with Spring Boot 3 and the [frontend](bankingapp-ui) with Angular 17.
 

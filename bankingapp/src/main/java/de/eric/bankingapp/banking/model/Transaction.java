@@ -1,7 +1,6 @@
 package de.eric.bankingapp.banking.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,16 +13,15 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long transactionId;
-    Date creationTime;
+    Date creationTime = new Date();
     double amount;
     String description;
     boolean sending;
-    String receiver_IBAN;
-    String receiver_BIC;
+    String receiverIban;
+    String receiverBic;
     @ManyToOne
     @JoinColumn(name = "account_id")
     BankingAccount bankingAccount;
-
 
     public static TransactionBuilder builder() {
         return new TransactionBuilder();
@@ -46,7 +44,7 @@ public class Transaction {
             return this;
         }
 
-        public TransactionBuilder amount(long amount) {
+        public TransactionBuilder amount(double amount) {
             this.transaction.amount = amount;
             return this;
         }
@@ -63,6 +61,17 @@ public class Transaction {
 
         public TransactionBuilder bankingAccount(BankingAccount bankingAccount) {
             this.transaction.bankingAccount = bankingAccount;
+            return this;
+        }
+        
+
+        public TransactionBuilder receiverIban(String receiverIban) {
+            this.transaction.receiverIban = receiverIban;
+            return this;
+        }
+
+        public TransactionBuilder receiverBic(String receiverBic) {
+            this.transaction.receiverBic = receiverBic;
             return this;
         }
 

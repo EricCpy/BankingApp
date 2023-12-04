@@ -3,11 +3,12 @@ package de.eric.bankingapp.banking.model.response;
 import de.eric.bankingapp.banking.model.AccountType;
 import de.eric.bankingapp.banking.model.AccountTypeInterestRate;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record AccountTypeInterestRateResponse(
         AccountType accountType,
-        Date creationDate,
+        LocalDate creationDate,
         double interestRatePA
 ) {
 

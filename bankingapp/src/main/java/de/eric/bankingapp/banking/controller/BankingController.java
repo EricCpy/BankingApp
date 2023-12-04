@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,6 +34,11 @@ public class BankingController {
     @GetMapping("/my")
     List<BankingAccountResponse> getMyBankingAccounts(HttpServletRequest httpServletRequest) {
         return bankingService.getBankingAccountsFromRequest(httpServletRequest);
+    }
+
+    @GetMapping("/interestRate")
+    double getMyInterestMoney(@RequestParam String iban, HttpServletRequest httpServletRequest) {
+        return bankingService.getBankingAccountInterestMoneyPA(iban, httpServletRequest);
     }
 
     @GetMapping
@@ -56,8 +62,9 @@ public class BankingController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/transaction/create")
-    TransactionResponse createTransaction(@RequestBody TransactionRequest transactionRequest, HttpServletRequest httpServletRequest) {
-        return bankingService.createTransaction(transactionRequest, httpServletRequest);
+    TransactionResponse createTransaction(@RequestParam String iban, @RequestBody TransactionRequest transactionRequest,
+                                           HttpServletRequest httpServletRequest) {
+        return bankingService.createTransaction(iban, transactionRequest, httpServletRequest);
     }
 
     @GetMapping("/transaction/my")

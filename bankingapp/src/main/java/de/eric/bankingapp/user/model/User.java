@@ -1,7 +1,6 @@
 package de.eric.bankingapp.user.model;
 
 import de.eric.bankingapp.banking.model.BankingAccount;
-import de.eric.bankingapp.savings.model.SavingsBond;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -31,8 +30,5 @@ public class User {
 
         @OneToMany(mappedBy = "user")
         private List<BankingAccount> bankingAccounts;
-
-        @OneToMany(mappedBy = "user")
-        private List<SavingsBond> savingsBonds;
 }
 
