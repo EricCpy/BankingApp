@@ -9,12 +9,12 @@ public record TransactionResponse (
         double amount,
         String description,
         boolean sending,
-        String receiver_IBAN,
-        String receiver_BIC
+        String receiverIban,
+        String receiverBic
 ) {
     public TransactionResponse(Transaction transaction) {
         this(transaction.getCreationTime(), transaction.getAmount(), transaction.getDescription(),
-                transaction.isSending(), transaction.getReceiver_IBAN(), transaction.getReceiver_BIC());
+                transaction.isSending(), transaction.getReceiverIban(), transaction.getReceiverBic());
     }
 
 }

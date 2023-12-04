@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -15,6 +16,6 @@ public class AccountTypeInterestRate {
     Long accountTypeInterestRateId;
     AccountType accountType;
     @Builder.Default
-    Date creationDate = new Date();
+    LocalDate creationDate = LocalDate.now();
     double interestRatePA;
 }
