@@ -69,7 +69,7 @@ I used StarUML to make UML diagrams and experimented with PlantUML. However, arr
 
 First, I made a use case diagram showing what functions the system should have and which actors can use them.
 
-<img src="docs/UseCaseDiagram.PNG" alt="Use Case Diagram" style="max-height: 700px;" /><br>
+<img src="docs/UseCaseDiagram.PNG" alt="Use Case Diagram" style="height: 500px;" /><br>
 *Use Case Diagram*
 
 The deployment diagram shows different hardware components, like clients connecting to the banking servers. It also has distributed database parts to prevent losing data. Besides the main server, there are components in each bank branch, like ATMs communicating to the main systems.
@@ -84,7 +84,7 @@ The component diagram illustrates the main components needed for the system and 
 
 The activity diagram explains how a customer registers with the banking app, including extra steps for user identification like POSTIDENT.
 
-<img src="docs/ActivityDiagram.PNG" alt="Activity Diagram" style="max-height: 700px;" /><br>
+<img src="docs/ActivityDiagram.PNG" alt="Activity Diagram" style="height: 500px;" /><br>
 *Activity Diagram*
 
 
