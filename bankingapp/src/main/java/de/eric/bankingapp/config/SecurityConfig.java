@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final AuthTokenFilter authFilter;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,7 +53,7 @@ public class SecurityConfig {
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl r = new RoleHierarchyImpl();
         r.setHierarchy("ROLE_ADMIN > ROLE_SUPPORT\n" +
-                        "ROLE_SUPPORT > ROLE_EMPLOYEE");
+                "ROLE_SUPPORT > ROLE_EMPLOYEE");
         return r;
     }
 
@@ -68,6 +69,7 @@ public class SecurityConfig {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/user/login").permitAll()
                         .anyRequest().authenticated()

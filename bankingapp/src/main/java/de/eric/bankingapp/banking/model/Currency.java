@@ -6,7 +6,6 @@ public enum Currency {
     GBP;
 
 
-
     public static Currency fromCode(String code) {
         for (Currency currency : values()) {
             if (code.equalsIgnoreCase(currency.toString())) {

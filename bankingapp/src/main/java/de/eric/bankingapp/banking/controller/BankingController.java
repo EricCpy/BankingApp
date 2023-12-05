@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -50,7 +49,7 @@ public class BankingController {
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_SUPPORT')")
     BankingAccountResponse editBankingAccount(@RequestParam String iban,
-                              @RequestBody BankingAccountEditRequest bankingAccountEditRequest) {
+                                              @RequestBody BankingAccountEditRequest bankingAccountEditRequest) {
         return bankingService.editBankingAccount(iban, bankingAccountEditRequest);
     }
 
@@ -63,7 +62,7 @@ public class BankingController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/transaction/create")
     TransactionResponse createTransaction(@RequestParam String iban, @RequestBody TransactionRequest transactionRequest,
-                                           HttpServletRequest httpServletRequest) {
+                                          HttpServletRequest httpServletRequest) {
         return bankingService.createTransaction(iban, transactionRequest, httpServletRequest);
     }
 
