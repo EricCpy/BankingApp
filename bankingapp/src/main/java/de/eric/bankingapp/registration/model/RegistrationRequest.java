@@ -2,7 +2,7 @@ package de.eric.bankingapp.registration.model;
 
 import lombok.NonNull;
 
-public record RegistrationRequest (
+public record RegistrationRequest(
         @NonNull
         String email,
         @NonNull

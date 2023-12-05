@@ -16,12 +16,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 public class RegistrationToken {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id;
-        @NaturalId
-        String token;
-        @NaturalId
-        String email;
-        Date expiration;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    @NaturalId
+    String token;
+    @NaturalId
+    String email;
+    Date expiration;
 }

@@ -2,7 +2,8 @@ package de.eric.bankingapp.user.service;
 
 import de.eric.bankingapp.config.auth.JwtUtils;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
-import de.eric.bankingapp.user.model.*;
+import de.eric.bankingapp.user.model.User;
+import de.eric.bankingapp.user.model.UserRole;
 import de.eric.bankingapp.user.model.request.*;
 import de.eric.bankingapp.user.model.response.TokenResponse;
 import de.eric.bankingapp.user.model.response.UserResponse;
@@ -147,7 +148,7 @@ public class UserService {
     }
 
     public void resetUserPassword(ResetPasswordRequest resetPasswordRequest, User user) {
-        if (passwordEncoder.matches(user.getPassword(),passwordEncoder.encode(resetPasswordRequest.oldPassword()))) {
+        if (passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(resetPasswordRequest.oldPassword()))) {
             log.info("Old password is incorrect!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

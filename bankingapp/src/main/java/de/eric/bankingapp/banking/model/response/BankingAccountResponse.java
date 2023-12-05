@@ -6,7 +6,7 @@ import de.eric.bankingapp.banking.model.Currency;
 
 import java.util.Date;
 
-public record BankingAccountResponse (
+public record BankingAccountResponse(
         String IBAN,
         double money,
         double interestRatePA,

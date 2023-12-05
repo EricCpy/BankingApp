@@ -9,26 +9,26 @@ import java.util.List;
 
 
 @Entity
-@Table(name="USER_ACCOUNT")
+@Table(name = "USER_ACCOUNT")
 @With
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class User {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long userId;
-        @NaturalId(mutable = true)
-        String email;
-        String firstName;
-        String lastName;
-        String password;
-        UserRole role = UserRole.CUSTOMER;
-        boolean blocked = false;
-        boolean emailVerified = false;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long userId;
+    @NaturalId(mutable = true)
+    String email;
+    String firstName;
+    String lastName;
+    String password;
+    UserRole role = UserRole.CUSTOMER;
+    boolean blocked = false;
+    boolean emailVerified = false;
 
-        @OneToMany(mappedBy = "user")
-        private List<BankingAccount> bankingAccounts;
+    @OneToMany(mappedBy = "user")
+    private List<BankingAccount> bankingAccounts;
 }
 

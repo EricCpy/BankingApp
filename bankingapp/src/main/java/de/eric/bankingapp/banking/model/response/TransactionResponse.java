@@ -4,7 +4,7 @@ import de.eric.bankingapp.banking.model.Transaction;
 
 import java.util.Date;
 
-public record TransactionResponse (
+public record TransactionResponse(
         Date creationDate,
         double amount,
         String description,

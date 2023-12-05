@@ -1,6 +1,6 @@
 package de.eric.bankingapp.banking.model.request;
 
-public record TransactionRequest (
+public record TransactionRequest(
         String description,
         double amount,
         String receiverIban,

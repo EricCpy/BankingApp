@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name="BANKING_TRANSACTION")
+@Table(name = "BANKING_TRANSACTION")
 @Data
 public class Transaction {
     @Id
@@ -26,6 +26,7 @@ public class Transaction {
     public static TransactionBuilder builder() {
         return new TransactionBuilder();
     }
+
     //just for example, because of the task, normally you would use lombok @Builder Pattern
     public static class TransactionBuilder {
         private final Transaction transaction;
@@ -63,7 +64,7 @@ public class Transaction {
             this.transaction.bankingAccount = bankingAccount;
             return this;
         }
-        
+
 
         public TransactionBuilder receiverIban(String receiverIban) {
             this.transaction.receiverIban = receiverIban;

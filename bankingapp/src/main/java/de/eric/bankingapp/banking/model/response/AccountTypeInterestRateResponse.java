@@ -4,7 +4,6 @@ import de.eric.bankingapp.banking.model.AccountType;
 import de.eric.bankingapp.banking.model.AccountTypeInterestRate;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public record AccountTypeInterestRateResponse(
         AccountType accountType,

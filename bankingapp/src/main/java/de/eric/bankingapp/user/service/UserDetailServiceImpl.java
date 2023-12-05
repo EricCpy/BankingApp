@@ -22,12 +22,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             log.info("User does not exist!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong!");
         }
 
-        if(user.get().isBlocked() || !user.get().isEmailVerified()) {
+        if (user.get().isBlocked() || !user.get().isEmailVerified()) {
             log.info("User with blocked/unverified account tried to send request!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong!");
         }

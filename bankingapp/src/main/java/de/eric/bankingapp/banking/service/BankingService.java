@@ -15,13 +15,13 @@ import de.eric.bankingapp.banking.repository.TransactionRepository;
 import de.eric.bankingapp.user.model.User;
 import de.eric.bankingapp.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -100,27 +100,27 @@ public class BankingService {
         //not possible for inactive accounts
 
         BankingAccount bankingAccount = findBankingAccountFromRequest(iban, httpServletRequest);
-        if(!bankingAccount.isActive()) {
+        if (!bankingAccount.isActive()) {
             log.info("Inactive account tried to perform transaction!");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        if(transactionRequest.amount() == 0 || transactionRequest.receiverIban() == null ||
+        if (transactionRequest.amount() <= 0 || transactionRequest.amount() > bankingAccount.getMoney() || transactionRequest.receiverIban() == null ||
                 transactionRequest.receiverIban().length() != 22) {
             log.info("Bad transaction creation!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         Transaction.TransactionBuilder transactionBuilder = Transaction.builder()
-                                                                        .amount(transactionRequest.amount())
-                                                                        .description(transactionRequest.description())
-                                                                        .sending(true)
-                                                                        .receiverIban(transactionRequest.receiverIban())
-                                                                        .receiverBic(transactionRequest.receiverBic() == null ? ownBic : transactionRequest.receiverBic())
-                                                                        .bankingAccount(bankingAccount);
+                .amount(transactionRequest.amount())
+                .description(transactionRequest.description())
+                .sending(true)
+                .receiverIban(transactionRequest.receiverIban())
+                .receiverBic(transactionRequest.receiverBic() == null ? ownBic : transactionRequest.receiverBic())
+                .bankingAccount(bankingAccount);
         Transaction transaction = transactionRepository.save(transactionBuilder.build());
 
-        if(transactionRequest.receiverBic() == null || transactionRequest.receiverBic().equals(ownBic)) {
+        if (transactionRequest.receiverBic() == null || transactionRequest.receiverBic().equals(ownBic)) {
             BankingAccount receiverAccount = findBankingAccountByIban(transactionRequest.receiverIban());
             transactionBuilder.sending(false).bankingAccount(receiverAccount);
             transactionRepository.save(transactionBuilder.build());
