@@ -152,10 +152,37 @@ Furthermore, I integrated Grype security checks into both pipelines. Grype can s
 TODO
 
 ### 6. Build Management
-TODO
-generate Swagger docs
-more text backend -> maven frontend -> npm with angular cli
-all tools used in pipelines
+For backend build management, I used Maven. In my [pom.xml](bankingapp/pom.xml) file, I defined a "dev" profile that starts a local H2 (in-memory) database. Additionally, the pom defines the project dependencies. These can be installed using `mvn install`. And listed with `mvn dependency:tree`.
+
+```
+[INFO] de.eric:bankingapp:jar:0.0.1-SNAPSHOT
+[INFO] +- org.springframework.boot:spring-boot-starter:jar:3.2.0:compile
+[INFO] |  +- org.springframework.boot:spring-boot:jar:3.2.0:compile
+[INFO] |  |  \- org.springframework:spring-context:jar:6.1.1:compile
+[INFO] |  +- org.springframework.boot:spring-boot-autoconfigure:jar:3.2.0:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-logging:jar:3.2.0:compile
+[INFO] |  |  +- org.apache.logging.log4j:log4j-to-slf4j:jar:2.21.1:compile
+[INFO] |  |  |  \- org.apache.logging.log4j:log4j-api:jar:2.21.1:compile
+[INFO] |  |  \- org.slf4j:jul-to-slf4j:jar:2.0.9:compile
+[INFO] |  +- jakarta.annotation:jakarta.annotation-api:jar:2.1.1:compile
+[INFO] |  +- org.springframework:spring-core:jar:6.1.1:compile
+[INFO] |  |  \- org.springframework:spring-jcl:jar:6.1.1:compile
+[INFO] |  \- org.yaml:snakeyaml:jar:2.2:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-data-jpa:jar:3.2.0:compile
+...
+```
+*Dependency Tree*
+
+The `mvn package` command is used to compile the project and package it into a specified file format (in my case .jar). To generate documentation, I specified a [dependency](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/pom.xml#L92) that can create Swagger docs from my endpoints. To determine the test coverage, I used a plugin called JaCoCo.
+
+
+<img src="docs/pictures/swagger.png" alt="Swagger Docs" style="height: 500px;" /><br>
+*Swagger Docs (http://localhost:8080/swagger-ui/index.html)*
+
+
+For frontend development, I used npm, a package manager and the Angular CLI tool.
+
+All of these tools are utilized in my CI/CD pipelines, which are explained in the following chapter.
 
 ### 7. CI/CD
 In this step, it became noticeable that I am using a monorepo instead of individual repositories. This has made it more complicated to execute different (Github)actions for the frontend and the backend because many actions are performed on the root directory. This results in problems such as a missing pom.xml in the action. However, I have found some workarounds for this (pom.xml example: directory parameter). For future projects, I would definitely use separate repositories, as most (Github)actions are not designed for monorepos.
