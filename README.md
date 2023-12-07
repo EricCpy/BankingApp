@@ -179,7 +179,6 @@ The `mvn package` command is used to compile the project and package it into a s
 <img src="docs/pictures/swagger.png" alt="Swagger Docs" style="height: 500px;" /><br>
 *Swagger Docs (http://localhost:8080/swagger-ui/index.html)*
 
-
 For frontend development, I used npm, a package manager and the Angular CLI tool.
 
 All of these tools are utilized in my CI/CD pipelines, which are explained in the following chapter.
@@ -211,7 +210,7 @@ Both pipelines can be triggered either manually in GitHub (using workflow_dispat
 *Cypress Report*
 
 ### 8. Unit Tests
-TODO
+I have integrated unit tests in both the [frontend](bankingapp-ui/cypress) and [backend](bankingapp/src/test). In both cases, all unit tests are executed in my pipelines. Additionally, two different types of unit tests have been used for the frontend: component tests with Karma/Jasmine, which are defined in the components (see [example](bankingapp-ui/src/app/dashboard/dashboard.component.spec.ts)) and end-to-end tests with [Cypress](bankingapp-ui/cypress).
 
 ### 9. IDE
 I used IntelliJ and Vscode. I used IntelliJ for the Java application because IntelliJ has a very nice UI to execute various Maven and Java commands and automatically handles some tasks. I also used Vscode for the Angular frontend and to test the HTTP requests because there is a [Vscode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) for it and using such an extension in IntelliJ requires premium :( (without this extension I would need Postman).
