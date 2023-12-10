@@ -41,16 +41,6 @@ public class RegistrationService {
         log.info("Registered user with " + user.getEmail());
     }
 
-    private RegistrationToken createVerificationToken(User user) {
-        String token = UUID.randomUUID().toString();
-        System.out.println(new Date(new Date().getTime() + expirationMsEmail));
-        return registrationRepository.save(new RegistrationToken(null,
-                token,
-                user.getEmail(),
-                new Date(new Date().getTime() + expirationMsEmail))
-        );
-    }
-
     @Transactional
     public void sendVerificationMail(EmailRequest emailRequest) {
         User user = userService.findUserByEmail(emailRequest.email());
@@ -81,8 +71,18 @@ public class RegistrationService {
             log.info("Can not verify account, because token is expired!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resend verification email, token is expired!");
         }
-
+        registrationRepository.deleteByEmail(registrationToken.get().getEmail());
         userService.verifyUser(registrationToken.get().getEmail());
+    }
+
+    private RegistrationToken createVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        System.out.println(new Date(new Date().getTime() + expirationMsEmail));
+        return registrationRepository.save(new RegistrationToken(null,
+                token,
+                user.getEmail(),
+                new Date(new Date().getTime() + expirationMsEmail))
+        );
     }
 
     private String buildVerificationRedirect(String redirect, String token) {

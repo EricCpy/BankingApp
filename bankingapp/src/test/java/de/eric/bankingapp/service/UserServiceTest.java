@@ -4,13 +4,17 @@ import de.eric.bankingapp.user.repository.UserRepository;
 import de.eric.bankingapp.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserServiceTest {
     @Autowired
-    UserService subject;
+    UserService userService;
     @Autowired
     UserRepository userRepository;
 
@@ -20,17 +24,37 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUser() {
+    void testCreateUser() {
 
     }
 
     @Test
-    void createExistingUser() {
+    void testCreateExistingUser() {
 
     }
 
     @Test
-    void blockUserAccount() {
+    void testBlockUserAccount() {
+
+    }
+
+    @Test
+    void testEditUser() {
+
+    }
+
+    @Test
+    void testDeleteUser() {
+
+    }
+
+    @Test
+    void testResetPassword() {
+
+    }
+
+    @Test
+    void testGetUser() {
 
     }
 
