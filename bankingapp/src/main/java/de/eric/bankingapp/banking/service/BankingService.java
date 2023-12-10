@@ -56,9 +56,12 @@ public class BankingService {
                 .accountType(accountType)
                 .interestRatePA(interestRatePA)
                 .currency(Currency.fromCode(bankingAccountRequest.currency()))
+                .user(user)
                 .build();
 
+
         bankingAccount = bankingAccountRepository.save(bankingAccount);
+        userService.addBankingAccountToUser(user, bankingAccount);
         bankingAccount.setIBAN(String.format("DE%020d", bankingAccount.getAccountId()));
         return new BankingAccountResponse(bankingAccountRepository.save(bankingAccount));
     }
@@ -208,7 +211,7 @@ public class BankingService {
         User user = userService.getUserFromRequest(httpServletRequest);
         BankingAccount bankingAccount = findBankingAccountByIban(iban);
         if (user != bankingAccount.getUser()) {
-            log.info("Unauthorized user tried to deactivate account!");
+            log.info("Unauthorized user tried to perform account action!");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are unauthorized to perform this action!");
         }
         return bankingAccount;

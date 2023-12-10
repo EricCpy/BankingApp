@@ -1,5 +1,6 @@
 package de.eric.bankingapp.user.service;
 
+import de.eric.bankingapp.banking.model.BankingAccount;
 import de.eric.bankingapp.config.auth.JwtUtils;
 import de.eric.bankingapp.registration.model.RegistrationRequest;
 import de.eric.bankingapp.user.model.User;
@@ -162,6 +163,13 @@ public class UserService {
 
     public List<UserResponse> getAllUsers() {
         return userRepository.findAllUserResponses();
+    }
+
+    public void addBankingAccountToUser(User user, BankingAccount bankingAccount) {
+        List<BankingAccount> accounts = user.getBankingAccounts();
+        accounts.add(bankingAccount);
+        user.setBankingAccounts(accounts);
+        userRepository.save(user);
     }
 
     private UserRole getRoleFromString(String role) {

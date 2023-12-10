@@ -18,7 +18,7 @@ public class BankingAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long accountId;
-    @NaturalId
+    @NaturalId(mutable = true)
     String IBAN;
     @Builder.Default
     double money = 0;
@@ -31,7 +31,7 @@ public class BankingAccount {
     Currency currency = Currency.EUR;
     @Builder.Default
     AccountType accountType = AccountType.CHECKING_ACCOUNT;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     User user;
     @OneToMany(mappedBy = "bankingAccount", cascade = CascadeType.ALL)
