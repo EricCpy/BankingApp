@@ -44,18 +44,19 @@ public class BankingServiceTest {
     MockHttpServletRequest mockRequestAdmin;
     MockHttpServletRequest mockRequestUser;
     String userEmail = "user@user.com";
+
     @BeforeAll
     public void setup() {
         String adminToken = userService.login(new LoginRequest("admin@admin.com", "password")).token();
         mockRequestAdmin = new MockHttpServletRequest();
         mockRequestAdmin.addHeader("Authorization", "Bearer " + adminToken);
         userService.createUser(new CreationRequest(
-                "user@user.com",
-                "Max",
-                "Mustermann",
-                "p477w0rd",
-                "customer",
-                true),
+                        "user@user.com",
+                        "Max",
+                        "Mustermann",
+                        "p477w0rd",
+                        "customer",
+                        true),
                 List.of("ADMIN"));
         String userToken = userService.login(new LoginRequest(userEmail, "p477w0rd")).token();
 
