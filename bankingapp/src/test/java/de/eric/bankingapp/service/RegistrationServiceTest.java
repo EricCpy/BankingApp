@@ -78,7 +78,7 @@ public class RegistrationServiceTest {
     void testVerifyUser() {
         registrationService.sendVerificationMail(new EmailRequest(userEmail, null));
         registrationRepository.findAll().forEach(registrationToken -> {
-            if(registrationToken.getEmail().equals(userEmail)) {
+            if (registrationToken.getEmail().equals(userEmail)) {
                 registrationService.verifyUser(registrationToken.getToken());
             }
         });
