@@ -83,9 +83,9 @@ public class BankingService {
 
 
     public double getBankingAccountInterestMoneyPA(String iban,
-                                                   HttpServletRequest httpServletRequest) {
+                                                   HttpServletRequest httpServletRequest, LocalDate date) {
         BankingAccount bankingAccount = findBankingAccountFromRequest(iban, httpServletRequest);
-        return getBankingAccountInterestMoneyPA(bankingAccount, LocalDate.now());
+        return getBankingAccountInterestMoneyPA(bankingAccount, date);
     }
 
 
@@ -122,11 +122,23 @@ public class BankingService {
                 .receiverBic(transactionRequest.receiverBic() == null ? ownBic : transactionRequest.receiverBic())
                 .bankingAccount(bankingAccount);
         Transaction transaction = transactionRepository.save(transactionBuilder.build());
-
+        bankingAccount.getTransactions().add(transaction);
+        bankingAccount.setMoney(bankingAccount.getMoney() - transaction.getAmount());
+        bankingAccountRepository.save(bankingAccount);
         if (transactionRequest.receiverBic() == null || transactionRequest.receiverBic().equals(ownBic)) {
             BankingAccount receiverAccount = findBankingAccountByIban(transactionRequest.receiverIban());
-            transactionBuilder.sending(false).bankingAccount(receiverAccount);
-            transactionRepository.save(transactionBuilder.build());
+            Transaction.TransactionBuilder receiverBuilder = Transaction.builder()
+                    .amount(transactionRequest.amount())
+                    .description(transactionRequest.description())
+                    .sending(false)
+                    .receiverIban(transactionRequest.receiverIban())
+                    .receiverBic(transactionRequest.receiverBic() == null ? ownBic : transactionRequest.receiverBic())
+                    .bankingAccount(receiverAccount);
+
+            transactionRepository.save(receiverBuilder.build());
+            receiverAccount.getTransactions().add(transaction);
+            receiverAccount.setMoney(receiverAccount.getMoney() + transaction.getAmount());
+            bankingAccountRepository.save(receiverAccount);
         }
 
         return new TransactionResponse(transaction);
@@ -235,7 +247,7 @@ public class BankingService {
         Map<String, AccountType> accountTypes = Map.of(
                 "call_deposit_account", AccountType.CALL_DEPOSIT_ACCOUNT,
                 "checking_account", AccountType.CHECKING_ACCOUNT);
-        if (accountType == null || !accountTypes.containsKey(accountType)) {
+        if (accountType == null || !accountTypes.containsKey(accountType.toLowerCase())) {
             log.info("Can not get accountType from String!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can not get accountType from String!");
         }

@@ -19,7 +19,7 @@ public class Transaction {
     boolean sending;
     String receiverIban;
     String receiverBic;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "account_id")
     BankingAccount bankingAccount;
 
