@@ -1,9 +1,12 @@
 package de.eric.bankingapp.service;
 
 import de.eric.bankingapp.banking.model.AccountType;
+import de.eric.bankingapp.banking.model.BankingAccount;
 import de.eric.bankingapp.banking.model.Currency;
 import de.eric.bankingapp.banking.model.request.AccountTypeInterestRateRequest;
+import de.eric.bankingapp.banking.model.request.BankingAccountEditRequest;
 import de.eric.bankingapp.banking.model.request.BankingAccountRequest;
+import de.eric.bankingapp.banking.model.request.TransactionRequest;
 import de.eric.bankingapp.banking.model.response.BankingAccountResponse;
 import de.eric.bankingapp.banking.repository.AccountTypeInterestRateRepository;
 import de.eric.bankingapp.banking.repository.BankingAccountRepository;
@@ -18,10 +21,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -146,32 +152,64 @@ public class BankingServiceTest {
 
     @Test
     void testEditAccount() {
+        BankingAccountRequest request = new BankingAccountRequest("USD", "checking_account");
+        BankingAccountResponse response = bankingService.createBankingAccount(request, mockRequestUser);
 
+        BankingAccountResponse editResponse = bankingService.editBankingAccount(response.IBAN(),
+                new BankingAccountEditRequest(
+                        "EUR", false));
+        assertThat(editResponse.currency()).isEqualTo(Currency.EUR);
+        assertThat(editResponse.active()).isEqualTo(false);
     }
 
     @Test
     void testCreateTransaction() {
+        BankingAccountRequest request_checking = new BankingAccountRequest("USD", "checking_account");
+        BankingAccountResponse response_checking = bankingService.createBankingAccount(request_checking, mockRequestUser);
 
+        BankingAccountRequest request_deposit = new BankingAccountRequest("USD", "CALL_DEPOSIT_ACCOUNT");
+        BankingAccountResponse response_deposit = bankingService.createBankingAccount(request_deposit, mockRequestUser);
+
+        BankingAccount bankingAccount = bankingAccountRepository.findByIBAN(response_checking.IBAN()).orElseThrow();
+        BankingAccount depositAccount = bankingAccountRepository.findByIBAN(response_deposit.IBAN()).orElseThrow();
+        bankingAccount.setMoney(1000);
+        bankingAccountRepository.save(bankingAccount);
+
+        bankingService.createTransaction(response_checking.IBAN(), new TransactionRequest(null, 500,
+                response_deposit.IBAN(), null), mockRequestUser);
+
+        assertThat(bankingAccount.getMoney()).isEqualTo(500);
+        assertThat(depositAccount.getMoney()).isEqualTo(500);
+        assertThat(transactionRepository.count()).isEqualTo(2);
     }
 
     @Test
-    void testGetTransactionsForBankingAccount() {
+    void testCreateTransactionWithLessThanAccountMoney() {
+        BankingAccountRequest request_checking = new BankingAccountRequest("USD", "checking_account");
+        BankingAccountResponse response_checking = bankingService.createBankingAccount(request_checking, mockRequestUser);
 
-    }
+        BankingAccountRequest request_deposit = new BankingAccountRequest("USD", "CALL_DEPOSIT_ACCOUNT");
+        BankingAccountResponse response_deposit = bankingService.createBankingAccount(request_deposit, mockRequestUser);
 
-    @Test
-    void testGetTransactionsForBankingAccountFromRequest() {
-
-    }
-
-    @Test
-    void testGetTransactionsForBankingAccountFromRequestUnauthorized() {
-
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> bankingService.createTransaction(response_checking.IBAN(), new TransactionRequest(null, 500,
+                        response_deposit.IBAN(), null), mockRequestUser));
+        assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
     void testGetBankingAccountInterestMoneyPA() {
+        bankingService.changeInterestRateForAccountType(new AccountTypeInterestRateRequest("checking_account", 0.03));
+        BankingAccountRequest request_checking = new BankingAccountRequest("USD", "checking_account");
+        BankingAccountResponse response_checking = bankingService.createBankingAccount(request_checking, mockRequestUser);
 
+        BankingAccount bankingAccount = bankingAccountRepository.findByIBAN(response_checking.IBAN()).orElseThrow();
+        bankingAccount.setMoney(100000);
+        bankingAccountRepository.save(bankingAccount);
+        LocalDate lastDayOfYear = LocalDate.of(LocalDate.now().getYear(), Month.DECEMBER, 31);
+        double interest = bankingService.getBankingAccountInterestMoneyPA(response_checking.IBAN(), mockRequestUser,
+                lastDayOfYear);
+        assertThat(interest).isGreaterThan(0);
     }
 
 }

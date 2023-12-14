@@ -209,7 +209,7 @@ Both pipelines can be triggered either manually in GitHub (using workflow_dispat
 *Cypress Report*
 
 ### 8. Unit Tests
-I have integrated unit tests in both the [frontend](bankingapp-ui/cypress) and [backend](bankingapp/src/test). In both cases, all unit tests are executed in my pipelines. Additionally, two different types of unit tests have been used for the frontend: component tests with Karma/Jasmine, which are defined in the components (see [example](bankingapp-ui/src/app/dashboard/dashboard.component.spec.ts)) and end-to-end tests with [Cypress](bankingapp-ui/cypress).
+I have integrated unit tests in both the [frontend](bankingapp-ui/cypress) and [backend](bankingapp/src/test/java/de/eric/bankingapp/service). In both cases, all unit tests are executed in my pipelines. Additionally, two different types of unit tests have been used for the frontend: component tests with Karma/Jasmine, which are defined in the components (see [example](bankingapp-ui/src/app/dashboard/dashboard.component.spec.ts)) and end-to-end tests with [Cypress](bankingapp-ui/cypress).
 
 ### 9. IDE
 I used IntelliJ and Vscode. I used IntelliJ for the Java application because IntelliJ has a very nice UI to execute various Maven and Java commands and automatically handles some tasks. I also used Vscode for the Angular frontend and to test the HTTP requests because there is a [Vscode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) for it and using such an extension in IntelliJ requires premium :( (without this extension I would need Postman).

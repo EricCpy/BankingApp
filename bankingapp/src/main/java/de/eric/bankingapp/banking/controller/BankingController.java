@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class BankingController {
 
     @GetMapping("/interestRate")
     double getMyInterestMoney(@RequestParam String iban, HttpServletRequest httpServletRequest) {
-        return bankingService.getBankingAccountInterestMoneyPA(iban, httpServletRequest);
+        return bankingService.getBankingAccountInterestMoneyPA(iban, httpServletRequest, LocalDate.now());
     }
 
     @GetMapping

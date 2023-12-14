@@ -5,7 +5,6 @@ import de.eric.bankingapp.user.model.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.NaturalId;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +17,6 @@ public class BankingAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long accountId;
-    @NaturalId(mutable = true)
     String IBAN;
     @Builder.Default
     double money = 0;
