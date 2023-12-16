@@ -1,0 +1,32 @@
+.headercontainer {
+    display: flex;
+    align-items: baseline;
+    padding-right: 0px;
+    margin: 0px;
+}
+
+.heading {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.person-name {
+    display: block;
+    max-width: 11rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.profile-button {
+    max-width: 16rem;
+}
+
+.content {
+    border-radius: 10px;
+    margin: 1rem;
+    margin-inline: 2rem;
+    padding: 1rem;
+    overflow: auto;
+    min-height: 86%;
+}
