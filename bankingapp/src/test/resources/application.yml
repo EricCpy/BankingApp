@@ -30,6 +30,7 @@ logging:
         security: ERROR
 cors:
   allowed-origins:
+    - 'http://localhost:4200'
 server:
   error:
     include-message: always

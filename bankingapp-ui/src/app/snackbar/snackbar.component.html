@@ -1,1 +1,6 @@
-<p>snackbar works!</p>
+<span class="normal {{data.error}}" matSnackBarLabel>
+    {{data.message}}
+</span>
+<span matSnackBarActions>
+    <button (click)="snackBarRef.dismissWithAction()" class="closeBtn" mat-button matSnackBarAction>✖</button>
+</span>

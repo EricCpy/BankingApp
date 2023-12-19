@@ -13,13 +13,19 @@ import { BankingOverviewComponent } from './banking-overview/banking-overview.co
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { AccountOverviewComponent } from './account-overview/account-overview.component';
 import { TransferFormComponent } from './transfer-form/transfer-form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { LogoutComponent } from './logout/logout.component';
 import { LandingComponent } from './landing/landing.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,8 @@ import { LandingComponent } from './landing/landing.component';
     AccountOverviewComponent,
     TransferFormComponent,
     LogoutComponent,
-    LandingComponent
+    LandingComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +51,21 @@ import { LandingComponent } from './landing/landing.component';
     MatInputModule,
     MatIconModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    HttpClientModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
