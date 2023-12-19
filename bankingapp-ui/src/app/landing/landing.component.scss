@@ -1,0 +1,19 @@
+.centered-div {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin-left: 30%;
+    height: 86vh;
+}
+
+h1 {
+    font-size: 25vh !important;
+    color: #673ab7;
+    margin-bottom: 8.5vh;
+}
+
+.description {
+    font-size: 4vh;
+    color: #8458d1;
+    margin-left: 1vw;
+}

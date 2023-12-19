@@ -1,28 +1,32 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-        <mat-icon>account_balance</mat-icon>
-        <h2 style="margin-left: 0.25rem;">Bank</h2>
+            <mat-icon>account_balance</mat-icon>
+            <h2 style="margin-left: 0.25rem;">Bank</h2>
         <h1 class="heading">{{caption}}</h1>
-        <button *ngIf="!logoutScreen" [matMenuTriggerFor]="logoutMenu" class="large-button profile-button" mat-button>
-            <mat-icon>person</mat-icon>
-            <span class="person-name">
-                {{username}}
-            </span>
-            <mat-icon iconPositionEnd style="margin-left: 0.5rem">arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu #logoutMenu="matMenu">
-            <button (click)="logout()" class="profile-button" mat-menu-item>
-                <mat-icon>logout</mat-icon>
-                Logout
+            <button *ngIf="!logoutScreen" [matMenuTriggerFor]="logoutMenu" class="large-button profile-button"
+                mat-button>
+                <mat-icon>person</mat-icon>
+                <span class="person-name">
+                    {{username}}
+                </span>
+                <mat-icon iconPositionEnd style="margin-left: 0.5rem">arrow_drop_down</mat-icon>
             </button>
-        </mat-menu>
-        <button (click)="login()" *ngIf="logoutScreen" class="large-button" mat-button>
-            <mat-icon>login</mat-icon>
-            Login
-        </button>
+            <mat-menu #logoutMenu="matMenu">
+                <button (click)="logout()" class="profile-button" mat-menu-item>
+                    <mat-icon>logout</mat-icon>
+                    Logout
+                </button>
+            </mat-menu>
+            <button (click)="login()" *ngIf="logoutScreen" class="large-button" mat-button>
+                <mat-icon>login</mat-icon>
+                Login
+            </button>
     </mat-toolbar-row>
 </mat-toolbar>
-<div class="content mat-elevation-z8">
-    <app-landing *ngIf="logoutScreen"></app-landing>
-    <router-outlet *ngIf="!logoutScreen"></router-outlet>
+<div *ngIf="landing" class="content mat-elevation-z8">
+    <app-landing></app-landing>
+</div>
+
+<div *ngIf="!landing" class="content mat-elevation-z8">
+    <router-outlet></router-outlet>
 </div>

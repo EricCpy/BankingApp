@@ -1,0 +1,33 @@
+<h1 class="dialogtitle">Registration</h1>
+<form [formGroup]="registrationForm" class="verticalcontainer" mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input formControlName="firstName" matInput required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input formControlName="lastName" matInput required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input formControlName="password" type="password" matInput required>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Repeat Password</mat-label>
+        <input formControlName="repeatPassword" type="password" matInput required>
+    </mat-form-field>
+    <div *ngIf="registrationForm.hasError('passwordMismatch')">
+        Passwords do not match.
+    </div>
+</form>
+<mat-dialog-actions class="buttoncontainer">
+    <button mat-dialog-close mat-raised-button>Close</button>
+    <button [disabled]="loading || !registrationForm.valid" (click)="register()" color="primary" mat-raised-button>
+        {{loading ? "" : "Register"}}
+        <mat-spinner *ngIf="loading" color="primary" [diameter]="25"></mat-spinner>
+    </button>
+</mat-dialog-actions>

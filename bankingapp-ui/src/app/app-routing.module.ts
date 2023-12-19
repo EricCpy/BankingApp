@@ -11,8 +11,8 @@ const routes: Routes = [
       { path: 'banking', component: BankingOverviewComponent, title: "Online Banking" },
     ]
   },
-  { path: 'logout', component: LogoutComponent, title: "Banking - Logout" },
-  { path: '**', redirectTo: '' }
+  { path: 'logout', component: LogoutComponent, title: "Banking - Register" }
+  //{ path: '**', redirectTo: '' }
 ];
 
 @NgModule({
