@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
-  loading: boolean = false;
+  loading = false;
   loginForm = new FormGroup({
     email: new FormControl<string>(""),
     password: new FormControl<string>("")
@@ -20,7 +20,7 @@ export class LoginFormComponent {
 
   login() {
     this.loading = true;
-    let vals = { ...this.loginForm.value };
+    const vals = { ...this.loginForm.value };
     this.authService.login(vals.email!, vals.password!)
       .pipe(finalize(() => this.loading = false))
       .subscribe({

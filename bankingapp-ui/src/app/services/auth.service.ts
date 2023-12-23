@@ -14,9 +14,9 @@ export class AuthService {
   tokenTime?: Date = new Date();
   constructor(private router: Router, private http: HttpClient, private snackBarService: SnackbarService) { }
 
-  login(email: string, password: string): Observable<Object> {
+  login(email: string, password: string): Observable<unknown> {
     const url = environment.backendUrl + 'user/login'
-    let request = this.http.post(url, {email: email, password: password})
+    const request = this.http.post(url, {email: email, password: password})
 
     request.subscribe({
         next: (response: any) => {
