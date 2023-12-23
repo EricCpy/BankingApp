@@ -54,7 +54,7 @@ jobs:
 
     - name: Run Cypress Tests
       run: |
-        ng serve &
+        ng serve --configuration development &
         until $(curl --output /dev/null --silent --head --fail http://localhost:4200); do
           echo "Starting Angular application"
           sleep 5
