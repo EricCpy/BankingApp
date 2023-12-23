@@ -1,1 +1,39 @@
-<p>banking-overview works!</p>
+<section>
+    <mat-toolbar color="primary" style="display:flex; justify-items:center">
+        <button mat-icon-button routerLink="../..">
+            <mat-icon>close</mat-icon>
+        </button>
+        <h2 style="font-size: 2rem;">Transactions</h2>
+        <button class ="large-button" style="margin-left: auto;" (click)="createTransaction()" mat-raised-button>
+            Create Transaction
+        </button>
+    </mat-toolbar>
+    <div *ngIf="loaded" class="container">
+        <ng-container *ngFor="let transaction of transactions">
+            <mat-card class="transaction-card" *ngIf="transaction.sending">
+                <mat-card-header>
+                    <mat-card-title>Transaction</mat-card-title>
+                    <mat-card-subtitle>SEND</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="info-container">
+                        <h3>{{transaction.receiverIban}}</h3>
+                        <h2>-{{transaction.amount}}€</h2>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="transaction-card" *ngIf="!transaction.sending">
+                <mat-card-header>
+                    <mat-card-title>Transaction</mat-card-title>
+                    <mat-card-subtitle>RECEIVED</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="info-container">
+                        <h3>{{iban}}</h3>
+                        <h2>+{{transaction.amount}}€</h2>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+    </div>
+</section>

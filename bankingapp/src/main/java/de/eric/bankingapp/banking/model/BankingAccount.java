@@ -3,8 +3,7 @@ package de.eric.bankingapp.banking.model;
 
 import de.eric.bankingapp.user.model.User;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +12,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BankingAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

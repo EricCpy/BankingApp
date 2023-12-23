@@ -1,1 +1,26 @@
-<p>transfer-form works!</p>
+<h1 class="dialogtitle">Transaction</h1>
+<form [formGroup]="transactionForm" class="verticalcontainer" mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input formControlName="description" matInput required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Amount</mat-label>
+        <input formControlName="amount" type="number" matInput required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>IBAN</mat-label>
+        <input formControlName="iban" minlength="20" matInput required>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+        <mat-label>BIC</mat-label>
+        <input formControlName="bic" matInput>
+    </mat-form-field>
+</form>
+<mat-dialog-actions class="buttoncontainer">
+    <button mat-dialog-close mat-raised-button>Close</button>
+    <button [disabled]="loading || !transactionForm.valid" (click)="createTransaction()" color="primary" mat-raised-button>
+        {{loading ? "" : "Create"}}
+        <mat-spinner *ngIf="loading" color="primary" [diameter]="25"></mat-spinner>
+    </button>
+</mat-dialog-actions>

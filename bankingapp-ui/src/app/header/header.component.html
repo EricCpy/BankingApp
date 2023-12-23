@@ -1,26 +1,27 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
+    <mat-toolbar-row class="vertical-container">
+        <div class="name-container">
             <mat-icon>account_balance</mat-icon>
             <h2 style="margin-left: 0.25rem;">Bank</h2>
-        <h1 class="heading">{{caption}}</h1>
-            <button *ngIf="!logoutScreen" [matMenuTriggerFor]="logoutMenu" class="large-button profile-button"
-                mat-button>
-                <mat-icon>person</mat-icon>
-                <span class="person-name">
-                    {{username}}
-                </span>
-                <mat-icon iconPositionEnd style="margin-left: 0.5rem">arrow_drop_down</mat-icon>
+        </div>
+        <h1 class="flex-item">{{caption}}</h1>
+        <button *ngIf="!logoutScreen" [matMenuTriggerFor]="logoutMenu" class="large-button profile-button flex-item" mat-button>
+            <mat-icon>person</mat-icon>
+            <span class="person-name">
+                {{username}}
+            </span>
+            <mat-icon iconPositionEnd style="margin-left: 0.5rem">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #logoutMenu="matMenu">
+            <button (click)="logout()" class="profile-button" mat-menu-item>
+                <mat-icon>logout</mat-icon>
+                Logout
             </button>
-            <mat-menu #logoutMenu="matMenu">
-                <button (click)="logout()" class="profile-button" mat-menu-item>
-                    <mat-icon>logout</mat-icon>
-                    Logout
-                </button>
-            </mat-menu>
-            <button (click)="login()" *ngIf="logoutScreen" class="large-button" mat-button>
-                <mat-icon>login</mat-icon>
-                Login
-            </button>
+        </mat-menu>
+        <button (click)="login()" *ngIf="logoutScreen" class="large-button" mat-button>
+            <mat-icon>login</mat-icon>
+            Login
+        </button>
     </mat-toolbar-row>
 </mat-toolbar>
 <div *ngIf="landing" class="content mat-elevation-z8">

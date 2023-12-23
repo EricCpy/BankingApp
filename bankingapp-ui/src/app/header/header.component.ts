@@ -17,7 +17,8 @@ export class HeaderComponent {
   headers: Map<string, string> = new Map([
     ['/', 'Welcome'],
     ['/banking', 'Banking'],
-    ['/logout', 'Logout']
+    ['/logout', 'Logout'],
+    ['/accounts', 'Accounts']
   ])
 
 
@@ -45,6 +46,7 @@ export class HeaderComponent {
         this.landing = false;
         this.logoutScreen = false;
         this.username = result;
+        this.router.navigate(['accounts'])
       }
     })
   }

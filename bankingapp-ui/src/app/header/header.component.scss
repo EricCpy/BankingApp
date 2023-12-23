@@ -5,14 +5,20 @@
     margin: 0px;
 }
 
-.heading {
-    margin-right: auto;
-    margin-left: auto;
+.vertical-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name-container {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
 }
 
 .person-name {
     display: block;
-    max-width: 11rem;
+    max-width: 10rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -28,5 +34,5 @@
     margin-inline: 2rem;
     padding: 1rem;
     overflow: auto;
-    min-height: 86%;
+    min-height: fit-content;
 }
