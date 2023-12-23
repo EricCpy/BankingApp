@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LogoutComponent } from './logout.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('LogoutComponent', () => {
   let component: LogoutComponent;
@@ -8,7 +9,10 @@ describe('LogoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LogoutComponent]
+      declarations: [LogoutComponent],
+      imports: [
+        MatIconModule
+      ]
     });
     fixture = TestBed.createComponent(LogoutComponent);
     component = fixture.componentInstance;
