@@ -12,7 +12,7 @@ import { TransactionRequest } from './transaction-request.model';
   styleUrls: ['./transfer-form.component.scss']
 })
 export class TransferFormComponent {
-  loading: boolean = false;
+  loading = false;
   transactionForm = new FormGroup({
     description: new FormControl<string>(""),
     amount: new FormControl<number>(0),

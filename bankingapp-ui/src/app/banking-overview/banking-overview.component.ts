@@ -13,7 +13,7 @@ import { TransferFormComponent } from '../transfer-form/transfer-form.component'
   styleUrls: ['./banking-overview.component.scss']
 })
 export class BankingOverviewComponent implements OnInit {
-  loaded: boolean = false;
+  loaded = false;
   iban?: string | null;
   transactions: Transaction[] = [];
 

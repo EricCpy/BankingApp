@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./account-overview.component.scss']
 })
 export class AccountOverviewComponent implements OnInit {
-  loaded: boolean = false;
-  checkingAccountLoading: boolean = false;
-  depositAccountLoading: boolean = false;
+  loaded = false;
+  checkingAccountLoading = false;
+  depositAccountLoading = false;
 
   checkingAccount?: BankingAccount;
   depositAccount?: BankingAccount;
@@ -81,7 +81,7 @@ export class AccountOverviewComponent implements OnInit {
       return;
     }
     
-    let iban = (accountType == 0 ? this.checkingAccount!.IBAN : this.depositAccount!.IBAN);
+    const iban = (accountType == 0 ? this.checkingAccount!.IBAN : this.depositAccount!.IBAN);
     this.router.navigate(['/accounts/banking', iban]);
   }
 

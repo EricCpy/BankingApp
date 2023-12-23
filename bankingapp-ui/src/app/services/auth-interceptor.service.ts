@@ -17,7 +17,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let token = this.authService.token;
+    const token = this.authService.token;
     let authRequest = request;
     if (token != null) {
       const fifteenMinutesLater = new Date(this.authService.tokenTime!.getTime() + 15 * 60000);

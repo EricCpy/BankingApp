@@ -10,10 +10,10 @@ import { LoginFormComponent } from '../login-form/login-form.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  landing: boolean = true;
-  logoutScreen: boolean = true;
-  username: string = "My profile";
-  caption: string = "Welcome";
+  landing = true;
+  logoutScreen = true;
+  username = "My profile";
+  caption = "Welcome";
   headers: Map<string, string> = new Map([
     ['/', 'Welcome'],
     ['/banking', 'Banking'],
@@ -26,7 +26,7 @@ export class HeaderComponent {
     this.router.events.subscribe(
       (event) => {
         if (event instanceof NavigationEnd) {
-          let top = event.url.substring(event.url.indexOf('/'), event.url.indexOf('/', 2) != -1 ? event.url.indexOf('/', 2) : event.url.length);
+          const top = event.url.substring(event.url.indexOf('/'), event.url.indexOf('/', 2) != -1 ? event.url.indexOf('/', 2) : event.url.length);
           this.caption = this.headers.get(top)!;
         }
       });
