@@ -1,6 +1,6 @@
 <section>
     <div *ngIf="loaded" class="container">
-        <mat-card class="account-card"  (click)="openAccount(0)">
+        <mat-card class="account-card" (click)="openAccount(0)">
             <mat-card-header>
                 <mat-card-title>Checking Account</mat-card-title>
                 <mat-card-subtitle>FAST TRANSACTION | LOW INTEREST RATE</mat-card-subtitle>
@@ -12,7 +12,8 @@
                 </div>
             </mat-card-content>
             <mat-card-content *ngIf="checkingAccount === undefined">
-                <button [disabled]="checkingAccountLoading" color="primary" (click) ="createCheckingAccount()" style="margin-top: 0.25rem;"  mat-raised-button>
+                <button [disabled]="checkingAccountLoading" color="primary" (click) ="createCheckingAccount()" style="margin-top: 0.25rem;" mat-raised-button
+                    data-cy="createCheckingAccountButton">
                     Create checking account
                 </button>
             </mat-card-content>

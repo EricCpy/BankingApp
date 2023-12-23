@@ -30,7 +30,7 @@ export const customValidator: ValidatorFn =  (control: AbstractControl): Validat
   styleUrls: ['./register-form.component.scss']
 })
 export class RegisterFormComponent {
-  loadin = false;
+  loading = false;
   registrationForm = new FormGroup({
     email: new FormControl<string>(""),
     firstName: new FormControl<string>(""),

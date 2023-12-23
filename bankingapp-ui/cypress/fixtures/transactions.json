@@ -1,0 +1,33 @@
+[
+    {
+      "amount": 500.25,
+      "sending": true,
+      "receiverIban": "DE89370400440532013000",
+      "receiverBic": "COBADEFFXXX"
+    },
+    {
+      "amount": 120.75,
+      "sending": false,
+      "receiverIban": "FR1420041010050500013M02606",
+      "receiverBic": "BNPAFRPPXXX"
+    },
+    {
+      "amount": 800.0,
+      "sending": true,
+      "receiverIban": "GB29NWBK60161331926819",
+      "receiverBic": "NWBKGB2LXXX"
+    },
+    {
+      "amount": 300.5,
+      "sending": false,
+      "receiverIban": "IT60X0542811101000000123456",
+      "receiverBic": "POFICHBEXXX"
+    },
+    {
+      "amount": 150.0,
+      "sending": true,
+      "receiverIban": "ES9121000418450200051332",
+      "receiverBic": "CESCESMMXXX"
+    }
+  ]
+  
