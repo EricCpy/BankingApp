@@ -1,0 +1,32 @@
+.account-card {
+    background-color: #e9d9f7;
+    border-radius: 5px;
+    margin: 0.2rem;
+    margin-inline: 0.4rem;
+    margin-bottom: 2rem;
+    width: 50%;
+    max-width: 45em;
+    overflow: auto;
+}
+
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.info-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.25rem;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+h3 {
+    margin-bottom: 0;
+}

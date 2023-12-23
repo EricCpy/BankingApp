@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { BankingAccountCreateFormComponent } from './banking-account-create-form/banking-account-create-form.component';
 import { BankingOverviewComponent } from './banking-overview/banking-overview.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { AccountOverviewComponent } from './account-overview/account-overview.component';
@@ -26,13 +25,13 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LoginFormComponent,
-    BankingAccountCreateFormComponent,
     BankingOverviewComponent,
     SnackbarComponent,
     AccountOverviewComponent,
@@ -57,7 +56,8 @@ import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule
   ],
   providers: [
     {

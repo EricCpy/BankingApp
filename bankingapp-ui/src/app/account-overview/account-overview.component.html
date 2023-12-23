@@ -1,1 +1,38 @@
-<p>account-overview works!</p>
+<section>
+    <div *ngIf="loaded" class="container">
+        <mat-card class="account-card"  (click)="openAccount(0)">
+            <mat-card-header>
+                <mat-card-title>Checking Account</mat-card-title>
+                <mat-card-subtitle>FAST TRANSACTION | LOW INTEREST RATE</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="checkingAccount !== undefined">
+                <div class="info-container">
+                    <h3>{{checkingAccount.IBAN}}</h3>
+                    <h2>{{checkingAccount.money}}€</h2>
+                </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="checkingAccount === undefined">
+                <button [disabled]="checkingAccountLoading" color="primary" (click) ="createCheckingAccount()" style="margin-top: 0.25rem;"  mat-raised-button>
+                    Create checking account
+                </button>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="account-card" style="margin-bottom: 0.2rem !important;" (click)="openAccount(1)">
+            <mat-card-header>
+                <mat-card-title>Deposit Account</mat-card-title>
+                <mat-card-subtitle>HIGH INTEREST RATE | SLOW TRANSACTIONS</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="depositAccount">
+                <div class="info-container">
+                    <h3>{{depositAccount.IBAN}}</h3>
+                    <h2>{{depositAccount.money}}€</h2>
+                </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="!depositAccount">
+                <button [disabled]="depositAccountLoading" color="primary" (click) ="createDepositAccount()" style="margin-top: 0.25rem;" mat-raised-button>
+                    Create deposit account
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</section>
