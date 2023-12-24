@@ -50,7 +50,9 @@
 This repository is a monorepository containing frontend and backend of the banking app. The [backend](bankingapp) is implemented with Spring Boot 3 and the [frontend](bankingapp-ui) with Angular 17.
 
 ### Preview
-TODO add Frontend pictures
+[Video-Preview](docs/preview/video/Previewvideo.mp4)
+
+[Screenshots](docs/preview)
 
 ## Documentation - Task B)
 
@@ -190,7 +192,7 @@ Both pipelines can be triggered either manually in GitHub (using workflow_dispat
   - Set up Java 21
   - Build JAR package and run tests (maven package)
   - Update dependency graph in Github (displaying all project dependencies)
-  - Create a [test coverage report](https://github.com/EricCpy/BankingApp/runs/19237311367) using JaCoCo and write the test coverage report in the job summary
+  - Create a [test coverage report](https://github.com/EricCpy/BankingApp/runs/19919377944) using JaCoCo and write the test coverage report in the job summary
   - Perform a Grype security check on dependencies, examining all used dependencies for vulnerabilities
 
 <img src="docs/pictures/jacocoreport.png" alt="JaCoCo Report" style="max-height: 700px; width: 500px" /><br>
@@ -201,7 +203,7 @@ Both pipelines can be triggered either manually in GitHub (using workflow_dispat
   - Set up Node.js environment
   - Install dependencies
   - Run Karma/Jasmine tests with a code coverage report
-  - Perform code linting and write code coverage from Karma/Jasmine and linting report in the [job summary](https://github.com/EricCpy/BankingApp/actions/runs/7066074767)
+  - Perform code linting and write code coverage from Karma/Jasmine and linting report in the [job summary](https://github.com/EricCpy/BankingApp/actions/runs/7310609400)
   - Run Cypress e2e tests
   - Perform a Grype security check on dependencies, although I have not set it to fail on vulnerabilities. This is because in JavaScript/TypeScript, seemingly everything has a vulnerability.
 
