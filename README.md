@@ -14,6 +14,14 @@
     - [3. DDD](#3-ddd)
     - [4. Metrics](#4-metrics)
     - [5. Clean Code Development](#5-clean-code-development)
+      - [1. DRY](#1-dry)
+      - [2. Unprecise Variables:](#2-unprecise-variables)
+      - [3. Dead Code:](#3-dead-code)
+      - [4. Separation of Concerns:](#4-separation-of-concerns)
+      - [5. Readability of Conditions / Calculations:](#5-readability-of-conditions--calculations)
+      - [6. Edge Case and Exception Handling:](#6-edge-case-and-exception-handling)
+      - [7. Avoiding Magic Numbers:](#7-avoiding-magic-numbers)
+      - [8. Function Accessibility:](#8-function-accessibility)
     - [6. Build Management](#6-build-management)
     - [7. CI/CD](#7-cicd)
     - [8. Unit Tests](#8-unit-tests)
@@ -150,7 +158,47 @@ Furthermore, I integrated Grype security checks into both pipelines. Grype can s
 *Grype Check*
 
 ### 5. Clean Code Development 
-TODO
+[**MY PERSONAL CLEAN CODE CHEAT SHEET**](docs/CleanCodeCheatSheet.md)
+
+#### 1. DRY
+  - **Example:** [Commit 1](https://github.com/EricCpy/BankingApp/commit/8b6228e99b2ead3437e5c17972beaef3f633533f#r135746433), [Commit 2](https://github.com/EricCpy/BankingApp/commit/5d7459b327ed9b87592755af1b9e04cb61c3316d#r135746544)
+  - **Explanation:**
+    - In both examples, we can see how I extracted common code into a function. This avoids redundancy and makes the maintenance of the code simpler. In the first commit, I moved the building of the verification redirect link into a separate function and in the second, I moved the process of getting the user from a repository into a function, which also handles common edge cases.
+
+#### 2. Unprecise Variables:
+  - **Example:** [Commit](https://github.com/EricCpy/BankingApp/commit/101e5e6df4d40722599246a8b536acade28e0b9d#r135746598)
+  - **Explanation:**
+    - Descriptive and precise variable names contribute significantly to code readability. In this commit, the variable name *ACCOUNT* was replaced with a more precise name, *USER_ACCOUNT*. I made this change because there are both banking accounts and user accounts, and using only *ACCOUNT* as the table name would be too unprecise.
+
+#### 3. Dead Code:
+  - **Example:** [Commit 1](https://github.com/EricCpy/BankingApp/commit/37e49d4d7ced49f2fa9bacde1377ba8c3d83582a#r135746644), [Commit 2](https://github.com/EricCpy/BankingApp/commit/88c0df7436e5bab9a000e4e77e427f932f40cc15#r135746753)
+  - **Explanation:**
+    - Eliminating dead code, which is unreachable or no longer serves a purpose, is good practice for maintaining a clean codebase. In these commits, I removed unused imports, which can also eliminate potential bugs in other dependencies that are not used in this class now.
+
+#### 4. Separation of Concerns:
+  - **Example:** [Commit](https://github.com/EricCpy/BankingApp/commit/88c0df7436e5bab9a000e4e77e427f932f40cc15#r135746713)
+  - **Explanation:**
+    - A clear separation of concerns is important for maintaining modular and maintainable code. In this commit, I moved a function to the Currency enum that can read an enum from a String. This functionality was previously within a service function. This separation improves code organization and allows for easier testing.
+
+#### 5. Readability of Conditions / Calculations:
+  - **Example:** [Function 1](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/banking/service/BankingService.java#L111), [Function 2](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/banking/service/BankingService.java#L218)
+  - **Explanation:**
+    - Lengthy and convoluted conditions can worsen code readability. In these functions, conditions and calculations were moved into separate functions, making the overall conditions and calculations easier to understand.
+
+#### 6. Edge Case and Exception Handling:
+  - **Example:** [Commit 1](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/user/service/UserDetailServiceImpl.java#L25), [Commit 2](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/config/exception/GeneralExceptionHandler.java)
+  - **Explanation:**
+    - Robust code includes handling of edge cases and exceptions. In these examples, proper handling of authorization edge cases in *UserDetailServiceImpl.java* and a centralized exception handling approach in *GeneralExceptionHandler.java* were implemented.
+
+#### 7. Avoiding Magic Numbers:
+  - **Example:** [Commit](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/config/auth/JwtUtils.java#L22)
+  - **Explanation:**
+    - The use of magic numbers can make code less maintainable and prone to errors. In this example, I replaced the magic numbers with configuration properties, making it possible to define these values in the configuration file. This enhances code readability and allows for future modifications without directly altering the code.
+
+#### 8. Function Accessibility:
+  - **Example:** [Example Service](https://github.com/EricCpy/BankingApp/blob/main/bankingapp/src/main/java/de/eric/bankingapp/banking/service/BankingService.java)
+  - **Explanation:**
+    - Ensuring that only necessary functions are marked as public and are accessible by other classes is essential for encapsulated code. By restricting public access to only the required functions, we enforce the principle of least privilege, minimizing the potential for unintended usage of internal functions. I tried to implement this practice in all of my classes, especially in the service classes.
 
 ### 6. Build Management
 For backend build management, I used Maven. In my [pom.xml](bankingapp/pom.xml) file, I defined a "dev" profile that starts a local H2 (in-memory) database. Additionally, the pom defines the project dependencies. These can be installed using `mvn install`. And listed with `mvn dependency:tree`.
@@ -272,7 +320,7 @@ Aspects of functional programming:
 
 - [x] DSL Create a small DSL Demo example snippet in your code even if it does not contribute to your project (hence it can also be in another language).
 - [x] Integrate some nice unit tests in your Code to be integrated into the Build
-- [ ] Clean Code Development: A) At least 5 points you can show me with an explanation of why this is clean code in your code and/or what has improved & B) >>10 points on your personal CCD cheat sheet. E.g. a PDF.
+- [x] Clean Code Development: A) At least 5 points you can show me with an explanation of why this is clean code in your code and/or what has improved & B) >>10 points on your personal CCD cheat sheet. E.g. a PDF.
 - [x] Functional Programming: prove that you have covered all functional aspects in your code as:
     - only final data structures
     - (mostly) side-effect-free functions 

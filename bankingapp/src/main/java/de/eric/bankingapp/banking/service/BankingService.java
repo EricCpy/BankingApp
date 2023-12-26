@@ -108,8 +108,7 @@ public class BankingService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        if (transactionRequest.amount() <= 0 || transactionRequest.amount() > bankingAccount.getMoney() || transactionRequest.receiverIban() == null ||
-                transactionRequest.receiverIban().length() != 22) {
+        if (isTransactionInvalid(transactionRequest, bankingAccount)) {
             log.info("Bad transaction creation!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
@@ -171,6 +170,11 @@ public class BankingService {
             bankingAccount.setMoney(getBankingAccountInterestMoneyPA(bankingAccount, LocalDate.now()));
             bankingAccountRepository.save(bankingAccount);
         });
+    }
+
+    private boolean isTransactionInvalid(TransactionRequest transactionRequest, BankingAccount bankingAccount) {
+        return transactionRequest.amount() <= 0 || transactionRequest.amount() > bankingAccount.getMoney() || transactionRequest.receiverIban() == null ||
+                transactionRequest.receiverIban().length() != 22;
     }
 
     private double getBankingAccountInterestMoneyPA(BankingAccount bankingAccount,
